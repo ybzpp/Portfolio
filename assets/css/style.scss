@@ -65,3 +65,9 @@ nav {
         padding: 30px 30px 50px 30px;
     }
 }
+
+@media print, screen and (max-width: 480px) {
+    #banner {
+        position: absolute;
+    }
+}
