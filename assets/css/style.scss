@@ -65,13 +65,3 @@ nav {
         padding: 30px 30px 50px 30px;
     }
 }
-
-@media print, screen and (max-width: 720px) {
-    section {
-        margin-top: 160px;
-    }
-    
-    #banner {
-        top: 90px;
-    }
-}
