@@ -1,9 +1,10 @@
-# Robby: Island Escape - 11/24
+# Island Escape - 11/24
 
 **[Yandex Games](https://yandex.ru/games/app/381597?draft=true&lang=ruhttps://yandex.ru/games/app/381597?draft=true&lang=ru)**
+
 **[Youtube](https://www.youtube.com/watch?v=0OqFInue-l8&list=PLRf3LmT-Bbji3U_VWmNX0K8WwP6JV-HgO&index=1)**
 
-![Robby: Island Escape](./res/image%20robby%20island%20escape.png)
+![Island Escape](./res/image%20robby%20island%20escape.png)
 
 # What Is It Io - 04/22
 
