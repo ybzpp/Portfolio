@@ -1,34 +1,39 @@
 # Island Escape - 11/24
 
-**[Yandex Games](https://yandex.ru/games/app/381597?draft=true&lang=ruhttps://yandex.ru/games/app/381597?draft=true&lang=ru)**
-
-**[Youtube](https://www.youtube.com/watch?v=0OqFInue-l8&list=PLRf3LmT-Bbji3U_VWmNX0K8WwP6JV-HgO&index=1)**
+**[Yandex Games](https://yandex.ru/games/app/381597?draft=true&lang=ruhttps://yandex.ru/games/app/381597?draft=true&lang=ru)** |
+**[Youtube](https://youtu.be/ZGQj9b8yVc0)**
 
 ![Island Escape](./res/image%20robby%20island%20escape.png)
 
-# What Is It Io - 04/22
+# Merge Tower Defence - 11/24
 
 **[Google Play](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.SmoothieBar)**
 
-![Idle Store Delivery](./res/image014.png)
+![Merge Tower Defence](./res/image014.png)
 
-# Store Delivery - 01/22
+# Find 100 dogs - 10/24
 
 **[Google Play](https://play.google.com/store/apps/details?id=com.wpg.idlestoredelivery)**
 
-![Idle Store Delivery](./res/image013.png)
+![Find 100 dogs](./res/image013.png)
 
-# Mini Loop - 11/21
+# Lost Kittens (LD56) - 10/24
+
+**[Google Play](https://play.google.com/store/apps/details?id=com.wpg.idlestoredelivery)**
+
+![Lost Kittens](./res/image013.png)
+
+# Yolk Knight: Tower Defense - 09/21
 
 **[Google Play](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.MiniLoop)**
 
-![Mini Loop](./res/image012.png)
+![Yolk Knight: Tower Defense](./res/image012.png)
 
-# Fight Your Way! - 10/21
+# Stargating Astro Armadillos - 05/21
 
 **[Google Play](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.FightYouWay)**
 
-![Fight Your Way!](./res/image011.png)
+![Stargating Astro Armadillos](./res/image011.png)
 
 # 2048 Race - 08/21
 
