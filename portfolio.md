@@ -78,7 +78,7 @@
 
 **[Watch video](https://www.youtube.com/watch?v=8D3IvBOG6sA&list=PLRf3LmT-Bbjh2ic-ulQpsfOEndWPnxO1L)**
 
-![Idle Pinata Tapping](./res/image%20vikings%20attack.png)
+![Vikings Attack](./res/image%20vikings%20attack.png)
 
 # Aimshooter - 10/21
 
@@ -97,7 +97,7 @@
 
 **[Watch video](https://youtube.com/shorts/hBSIaIOKbzs)**
 
-![Magic Elements Run](./res/image%20letter%20board%20puzzle.png)
+![Letter Board Puzzle](./res/image%20letter%20board%20puzzle.png)
 
 # Slide It - 08/21
 
