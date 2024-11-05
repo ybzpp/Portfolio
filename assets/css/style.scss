@@ -1,6 +1,3 @@
----
----
-
 @import "{{ site.theme }}";
 
 #banner .fork {
@@ -11,13 +8,17 @@
     margin-top: 6px;
     line-height: 14px;
     font-size: 14px;
-    background-color: #3e70b1
+    background-color: #3e70b1;
 }
 
 #banner {
     background: #70a3e2;
     border: 1px solid #70a3e2;
     width: 100%;
+    display: flex; /* Используем Flexbox для центрирования */
+    justify-content: center; /* Центрируем кнопки по горизонтали */
+    align-items: center; /* Центрируем кнопки по вертикали, если нужно */
+    flex-wrap: wrap; /* Позволяем кнопкам переноситься на новую строку */
 }
 
 strong {
@@ -26,15 +27,15 @@ strong {
 
 #banner .button {
     border: 1px solid #70a3e2;
+    margin: 10px; /* Устанавливаем отступ между кнопками */
 }
 
-.left-content{
+.left-content {
     width: 360px;
     margin-left: -700px;
 }
 
-.tag-h1{
+.tag-h1 {
     font-size: 1em;
     padding: 2px 0px;
 }
-
