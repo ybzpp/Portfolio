@@ -60,3 +60,8 @@ nav {
     top: 0px;
 }
 
+@media print, screen and (max-width: 1060px) {
+    section {
+        padding: 0px 0;
+    }
+}
