@@ -4,9 +4,7 @@
 @import "{{ site.theme }}";
 
 #banner .fork {
-    position: fixed;
-    left: 50%;
-    margin-left: -325px;
+    position: relative;
     padding: 10px 12px;
     margin-top: 6px;
     line-height: 14px;
@@ -18,6 +16,9 @@
     background: #70a3e2;
     border: 1px solid #70a3e2;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 strong {
