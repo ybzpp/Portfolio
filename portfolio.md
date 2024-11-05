@@ -19,7 +19,8 @@
 
 # Lost Kittens (LD56) - 10/24
 
-**[Play Online](https://ybzpp.itch.io/tiny-creatures-lost-kittens-ld56)**
+**[Play Online](https://ybzpp.itch.io/tiny-creatures-lost-kittens-ld56)** |
+**[Ludum Dare](https://ldjam.com/events/ludum-dare/56/tiny-creatures-lost-kittens)**
 
 ![Lost Kittens](./res/image%20lost%20kittens.png)
 
@@ -139,7 +140,8 @@
 # Bones & Guns Elevator Runs (LD 48) - 04/21
 
 **[Download](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)** |
-**[Watch video](https://www.youtube.com/watch?v=qqgiJN0SxDs)**
+**[Watch video](https://www.youtube.com/watch?v=qqgiJN0SxDs)** |
+**[Ludum Dare](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)**
 
 ![Bones & Guns Elevator Runs](./res/image%20bones.png)
 
