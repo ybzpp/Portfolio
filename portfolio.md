@@ -23,14 +23,14 @@
 
 ![Lost Kittens](./res/image%20lost%20kittens.png)
 
-# Yolk Knight: Tower Defense - 09/21
+# Yolk Knight: Tower Defense - 09/24
 
 **[Google Play](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.YolkKnightTowerDefense)** |
 **[Watch video](https://youtu.be/i5cxn2Tri6Q)**
 
 ![Yolk Knight: Tower Defense](./res/image%20tower%20defence.png)
 
-# Stargating Astro Armadillos - 05/21
+# Stargating Astro Armadillos - 05/24
 
 **[Play Online](https://play.stargating.io/)** |
 **[Watch video](https://www.youtube.com/playlist?list=PLITokKBOe2oFVtZhu3FQpbJcajREEy45C)**
