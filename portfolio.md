@@ -36,3 +36,10 @@
 **[Watch video](https://www.youtube.com/playlist?list=PLITokKBOe2oFVtZhu3FQpbJcajREEy45C)**
 
 ![Stargating Astro Armadillos](./res/image%20armadillos.png)
+
+# Date 'N Run - 03/23
+
+**[Google Play](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.DateRunner&pli=1)** |
+**[Watch video](https://youtu.be/gNeLZMf_SLs)**
+
+![Date 'N Run](./res/image%20date%20n%20run.png)
