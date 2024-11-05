@@ -1,8 +1,7 @@
 ---
 ---
 
-@import "{{ site.theme }}"
-;
+@import "{{ site.theme }}";
 
 #banner .fork {
     position: fixed;
@@ -37,4 +36,14 @@ strong {
 
 #banner .button {
     border: 1px solid #70a3e2;
+}
+
+#left-content{
+    width: 360px;
+    margin-left: -700px;
+}
+
+#tag-h1{
+    font-size: 1em;
+    padding: 2px 0px;
 }
