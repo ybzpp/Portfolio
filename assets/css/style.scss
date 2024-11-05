@@ -15,7 +15,7 @@
     margin: 4px;
 }
 
-header{
+header {
     padding: 25px 0px 40px 0px;
 }
 
@@ -36,13 +36,18 @@ strong {
     border: 1px solid #70a3e2;
 }
 
-.left-content{
+.left-content {
     width: 360px;
     margin-left: -700px;
+    font-family: "Nunito", sans-serif;
 }
 
-.tag-h1{
+.tag-h1 {
     font-size: 1em;
     padding: 2px 0px;
+}
+
+body {
+    font: 14px / 22px 'Nunito', "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
