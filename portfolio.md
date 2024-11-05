@@ -57,9 +57,28 @@
 ![Buy It Now](./res/image%20buy%20it%20now.png)
 
 # Spy Fall - 04/22
+
+**[Watch video](https://youtu.be/-22i64ywZQE)**
+
+![Spy Fall](./res/image%20spy%20fall.png)
+
 # Overbattle - 03/22
+
+**[Watch video](https://youtu.be/YdsxMb2bCJ0)**
+
+![Overbattle](./res/image%20overbattles.png)
+
 # Idle Pinata Tapping - 01/22
+
+**[Watch video](https://youtu.be/WZ7ZxckOx2Y)**
+
+![Idle Pinata Tapping](./res/image%20idle%20pinata.png)
+
 # Vikings Attack - 11/21
+
+**[Watch video](https://www.youtube.com/watch?v=8D3IvBOG6sA&list=PLRf3LmT-Bbjh2ic-ulQpsfOEndWPnxO1L)**
+
+![Idle Pinata Tapping](./res/image%20vikings%20attack.png)
 
 # Aimshooter - 10/21
 
@@ -76,9 +95,21 @@
 
 # Letter Board Puzzle - 09/21
 
+**[Watch video](https://youtube.com/shorts/hBSIaIOKbzs)**
+
+![Magic Elements Run](./res/image%20letter%20board%20puzzle.png)
+
 # Slide It - 08/21
 
+**[Watch video](https://youtu.be/hqyxh_T2NI4)**
+
+![Slide It](./res/image%20slide%20it.png)
+
 # Trickshot Balls - 08/21
+
+**[Watch video](https://youtu.be/kCSi6kpaO_c)**
+
+![Trickshot Balls](./res/image%20trickshot%20balls.png)
 
 # Slingshot Fight - 07/21
 
@@ -88,13 +119,15 @@
 
 # Kinetic Cleaning - 07/21
 
-# Bones & Guns Elevator Runs (LD 48) - 02/21
+**[Watch video](https://youtu.be/ov6s25FskUo)**
 
-**[Download](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)** |
-**[Watch video](https://www.youtube.com/watch?v=qqgiJN0SxDs)**
+![Kinetic Cleaning](./res/image%20kinetic%20cleaning.png)
 
-![Bones & Guns Elevator Runs](./res/image%20bones.png)
 # Emoji Runner - 06/21
+
+**[Watch video](https://www.youtube.com/watch?v=OZhvDZCfLWY&list=PLRf3LmT-Bbji0oOGgXqumZWva5rVDe7bU)**
+
+![Emoji Runner](./res/image%20emoji%20runner.png)
 
 # Magnet Master - 05/21
 
@@ -102,6 +135,13 @@
 **[Watch video](https://www.youtube.com/watch?v=rln_oMY3yiY&list=PLRf3LmT-BbjjhyC_Z3LxaH6Zt8Pri9c5j)**
 
 ![Magnet Master](./res/image%20magnet%20master.png)
+
+# Bones & Guns Elevator Runs (LD 48) - 04/21
+
+**[Download](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)** |
+**[Watch video](https://www.youtube.com/watch?v=qqgiJN0SxDs)**
+
+![Bones & Guns Elevator Runs](./res/image%20bones.png)
 
 # Color Chain - 04/21
 
@@ -116,6 +156,11 @@
 ![Ball Shooter](./res/image%20ball%20shooter.png)
 
 # Giant Fight - 03/21
+
+**[Watch video](https://www.youtube.com/watch?v=Hdy4EA11FGU&list=PLRf3LmT-Bbjgzm3q_ZdMVIA55p66bwtrl&index=1)**
+
+![Giant Fight](./res/image%20giant%20fight.png)
+
 # Monocycle - 02/21
 
 **[Watch video](https://www.youtube.com/watch?v=2kUR9odHz5E&list=PLRf3LmT-BbjhsXBlsFGqGLdIkW6kS-a_m&index=1)**
