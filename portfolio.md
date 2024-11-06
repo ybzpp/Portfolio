@@ -7,13 +7,15 @@
 
 # Merge Tower Defence - 11/24
 
-**[Play Online](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.SmoothieBar)**
+**[Play Online](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.SmoothieBar)** |
+**[Watch video](https://youtu.be/XBwFAnI_0iU)**
 
 ![Merge Tower Defence](./res/image%20merge%20tower%20defence.png)
 
 # Find 100 dogs - 10/24
 
-**[Play Online](https://yandex.ru/games/app/381596)**
+**[Play Online](https://yandex.ru/games/app/381596)** |
+**[Watch video](https://youtube.com/shorts/dBOGqUrxb14)**
 
 ![Find 100 dogs](./res/image%20robby%20find%20100%20dogs.png)
 
