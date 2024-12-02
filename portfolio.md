@@ -7,7 +7,7 @@
 
 # Merge Tower Defence - 11/24
 
-**[Play Online](https://play.google.com/store/apps/details?id=com.ZlodeyStudios.SmoothieBar)** |
+**[Play Online](https://yandex.ru/games/app/384125?lang=ru)** |
 **[Watch video](https://youtu.be/XBwFAnI_0iU)**
 
 ![Merge Tower Defence](./res/image%20merge%20tower%20defence.png)
