@@ -167,7 +167,7 @@
 
 # Monocycle - 02/21
 
-**[Watch video](https://www.youtube.com/watch?v=2kUR9odHz5E&list=PLRf3LmT-BbjhsXBlsFGqGLdIkW6kS-a_m&index=1)**
+**[Watch video](https://www.youtube.com/watch?v=2kUR9odHz5E&list=PLRf3LmT-BbjhsXBlsFGqGLdIkW6kS-a_m&index=1 )**
 
 ![Monocycle](./res/image%20mononcycle.png)
 
