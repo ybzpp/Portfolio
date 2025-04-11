@@ -7,7 +7,6 @@
 
 # Island Escape - 11/24
 
-**[Play Online](https://yandex.ru/games/app/381597?draft=true&lang=ruhttps://yandex.ru/games/app/381597?draft=true&lang=ru)** |
 **[Watch video](https://youtu.be/ZGQj9b8yVc0)**
 
 ![Island Escape](./res/image%20robby%20island%20escape.png)
