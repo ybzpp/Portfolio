@@ -1,4 +1,4 @@
-# DEPTHS - FLOOR 404 (LD57) - 04/25
+# Depths - Floor 404 ( LD57 ) - 04/25
 
 **[Play Online](https://ybzpp.itch.io/depths-floor-404)** |
 **[Ludum Dare](https://ldjam.com/events/ludum-dare/57/$409938)**
@@ -25,7 +25,7 @@
 
 ![Find 100 dogs](./res/image%20robby%20find%20100%20dogs.png)
 
-# Lost Kittens (LD56) - 10/24
+# Lost Kittens ( LD56 ) - 10/24
 
 **[Play Online](https://ybzpp.itch.io/tiny-creatures-lost-kittens-ld56)** |
 **[Ludum Dare](https://ldjam.com/events/ludum-dare/56/tiny-creatures-lost-kittens)**
