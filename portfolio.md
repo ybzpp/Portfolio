@@ -154,6 +154,7 @@
 
 # Bones & Guns Elevator Runs ( LD 48 ) - 04/21
 
+**[Made in 72 hours]**
 **[Download](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)** |
 **[Watch video](https://www.youtube.com/watch?v=qqgiJN0SxDs)** |
 **[Ludum Dare](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)**
