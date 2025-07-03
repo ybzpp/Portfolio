@@ -1,7 +1,7 @@
 # BasketBall Game - 06/25
 
-**[Watch video](https://www.youtube.com/shorts/BglrRQ2gLwk)**
-**[RuStore](https://www.rustore.ru/catalog/app/com.Rodionovscompany.BallGame)** |
+**[Watch video](https://www.youtube.com/shorts/BglrRQ2gLwk)** |
+**[RuStore](https://www.rustore.ru/catalog/app/com.Rodionovscompany.BallGame)** 
 
 ![BasketBall Game](./res/image%20ballgame.jpg)
 
