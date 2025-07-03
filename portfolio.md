@@ -152,7 +152,7 @@
 
 ![Magnet Master](./res/image%20magnet%20master.png)
 
-# Bones & Guns Elevator Runs (LD 48) - 04/21
+# Bones & Guns Elevator Runs ( LD 48 ) - 04/21
 
 **[Download](https://ldjam.com/events/ludum-dare/48/bones-guns-elevator-runs)** |
 **[Watch video](https://www.youtube.com/watch?v=qqgiJN0SxDs)** |
