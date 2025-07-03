@@ -1,6 +1,6 @@
 # Basketball Game - 06/25
 
-**[Watch video](https://www.youtube.com/shorts/BglrRQ2gLwk)** |
+**[Watch video](https://www.youtube.com/watch?v=gY1qrHe-kI8&list=PLRf3LmT-Bbjin8g8VCmWWIDw8k9YwkeAf)** |
 **[RuStore](https://www.rustore.ru/catalog/app/com.Rodionovscompany.BallGame)** 
 
 ![Basketball Game](./res/image%20basketball.png)
