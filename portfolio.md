@@ -1,9 +1,9 @@
-# BasketBall Game - 06/25
+# Basketball Game - 06/25
 
 **[Watch video](https://www.youtube.com/shorts/BglrRQ2gLwk)** |
 **[RuStore](https://www.rustore.ru/catalog/app/com.Rodionovscompany.BallGame)** 
 
-![BasketBall Game](./res/image%20basketball.png)
+![Basketball Game](./res/image%20basketball.png)
 
 # Depths - Floor 404 ( LD57 ) - 04/25
 
