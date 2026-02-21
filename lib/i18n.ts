@@ -7,7 +7,7 @@ export const translations = {
       subtitle: 'Unity Developer · Playable Ads',
       title: 'Sergey',
       titleHighlight: ' Korolev',
-      desc: 'Разрабатываю игры на Unity: механики, прототипы, полировка. Оживляю интерфейсы анимацией. Специалист по Playable Ads — быстрая разработка и качественный результат.',
+      desc: 'Разрабатываю игры на Unity: механики, прототипы, полишинг. Специалист по Playable Ads — быстрая разработка и качественный результат.',
       ctaWorks: 'Смотреть работы',
       ctaContact: 'Связаться со мной',
       scroll: 'Scroll',

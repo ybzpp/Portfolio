@@ -47,7 +47,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[120vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-20"
+      className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-12"
     >
       {/* Pixel grid background */}
       <div

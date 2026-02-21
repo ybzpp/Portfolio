@@ -116,14 +116,31 @@ sudo usermod -aG docker $USER
 # выйти и зайти по SSH заново, чтобы группа docker применилась
 ```
 
-**Выкатить проект с нужной ветки и запустить одной командой:**
+**Первый раз на сервере** (скрипта ещё нет — он в репо). Одной командой клонируем ветку в `/var/www/portfolio` и запускаем деплой:
 
 ```bash
-# Подставьте свой репозиторий и ветку
-REPO=https://github.com/ВАШ_ЮЗЕР/Portfolio.git BRANCH=new-site ./deploy.sh
+git clone -b new-site https://github.com/ybzpp/Portfolio.git /var/www/portfolio && cd /var/www/portfolio && chmod +x deploy.sh && REPO=https://github.com/ybzpp/Portfolio.git BRANCH=new-site ./deploy.sh
 ```
 
-Скрипт `deploy.sh` (лежит в репозитории) сам клонирует ветку в `/var/www/portfolio`, создаёт `.env` из примера при отсутствии и запускает `docker compose up -d --build`. Первый раз нужно создать `.env` и заполнить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`:
+(Подставьте свой репозиторий и ветку вместо `ybzpp` и `new-site`.)  
+**Важно:** файл `deploy.sh` должен быть закоммичен и запушен в эту ветку (`git add deploy.sh && git commit -m "add deploy script" && git push`), иначе на сервере его не будет.
+
+**Если склонировали репо, но `deploy.sh` нет** (ещё не в репозитории) — сделайте всё вручную из папки проекта:
+
+```bash
+cd /var/www/portfolio
+cp .env.example .env && nano .env   # заполнить TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID
+docker compose up -d --build
+```
+
+**Если репозиторий уже в `/var/www/portfolio`** — заходите в папку и запускаете скрипт:
+
+```bash
+cd /var/www/portfolio
+REPO=https://github.com/ybzpp/Portfolio.git BRANCH=new-site ./deploy.sh
+```
+
+Скрипт при наличии папки сделает `git pull`, создаст `.env` из примера при отсутствии и запустит `docker compose up -d --build`. Первый раз нужно создать `.env` и заполнить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`:
 
 ```bash
 cd /var/www/portfolio
