@@ -35,8 +35,8 @@ export default function ProjectPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-6">
         <div className="text-center">
-          <h1 className="font-display text-2xl text-zinc-400 mb-4">{t.project.notFound}</h1>
-          <Link href="/#portfolio" className="text-neon-cyan hover:underline">
+          <h1 className="font-display text-sm md:text-base text-zinc-400 mb-4 [letter-spacing:0.05em]">{t.project.notFound}</h1>
+          <Link href="/#portfolio" className="font-display text-xs text-neon-cyan hover:underline border-2 border-neon-cyan px-4 py-2 rounded-none">
             {t.project.backToPortfolio}
           </Link>
         </div>
@@ -46,16 +46,16 @@ export default function ProjectPage() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 bg-dark-bg/90 border-b border-dark-border">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 bg-dark-bg/95 border-b-2 border-dark-border">
         <Link
           href="/#portfolio"
-          className="font-display font-bold text-lg text-zinc-100 hover:text-neon-cyan transition-colors"
+          className="font-display font-bold text-sm md:text-base text-zinc-100 hover:text-neon-cyan transition-colors [letter-spacing:0.1em]"
         >
-          SK
+          [SK]
         </Link>
         <button
           onClick={() => router.back()}
-          className="text-sm text-zinc-400 hover:text-neon-cyan transition-colors"
+          className="font-display text-xs text-zinc-400 hover:text-neon-cyan transition-colors border-2 border-dark-border px-3 py-1.5 rounded-none hover:border-neon-cyan"
         >
           ← {t.project.back}
         </button>
@@ -69,23 +69,23 @@ export default function ProjectPage() {
             transition={{ duration: 0.5 }}
           >
             <div className="flex flex-wrap gap-2 mb-4">
-              <span className="text-neon-cyan text-sm font-mono">{project.year}</span>
+              <span className="font-display text-[10px] text-neon-cyan [letter-spacing:0.05em]">{project.year}</span>
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-xs px-2 py-0.5 rounded bg-dark-card border border-dark-border text-zinc-400"
+                  className="font-display text-[10px] px-2 py-0.5 rounded-none bg-dark-card border-2 border-dark-border text-zinc-400"
                 >
                   {tag}
                 </span>
               ))}
             </div>
-            <h1 className="font-display text-3xl md:text-5xl font-bold text-zinc-100 mb-6">
+            <h1 className="font-display text-xl md:text-2xl font-bold text-zinc-100 mb-6 [letter-spacing:0.03em]">
               {project.title}
             </h1>
-            <p className="text-zinc-400 text-lg mb-10">{project.description}</p>
+            <p className="font-body text-zinc-400 text-lg mb-10">{project.description}</p>
 
             {(project.cover && !coverError) ? (
-              <div className="rounded-lg overflow-hidden border border-dark-border mb-10 aspect-video bg-dark-card flex items-center justify-center">
+              <div className="rounded-none overflow-hidden border-2 border-dark-border mb-10 aspect-video bg-dark-card flex items-center justify-center shadow-pixel">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={project.cover}
@@ -95,34 +95,34 @@ export default function ProjectPage() {
                 />
               </div>
             ) : project.cover ? (
-              <div className="rounded-lg border border-dark-border mb-10 aspect-video bg-dark-card flex items-center justify-center">
-                <span className="font-display text-6xl text-zinc-600">{project.title.charAt(0)}</span>
+              <div className="rounded-none border-2 border-dark-border mb-10 aspect-video bg-dark-card flex items-center justify-center shadow-pixel">
+                <span className="font-display text-5xl text-zinc-600">{project.title.charAt(0)}</span>
               </div>
             ) : null}
 
             {project.problem && (
-              <div className="mb-8">
-                <h3 className="font-display text-neon-cyan text-sm uppercase tracking-wider mb-2">
-                  {t.project.task}
+              <div className="mb-8 border-l-2 border-neon-cyan pl-4">
+                <h3 className="font-display text-neon-cyan text-xs [letter-spacing:0.1em] mb-2">
+                  &gt; {t.project.task}
                 </h3>
-                <p className="text-zinc-400">{project.problem}</p>
+                <p className="font-body text-zinc-400 text-lg">{project.problem}</p>
               </div>
             )}
             {project.solution && (
-              <div className="mb-8">
-                <h3 className="font-display text-neon-pink text-sm uppercase tracking-wider mb-2">
-                  {t.project.solution}
+              <div className="mb-8 border-l-2 border-neon-pink pl-4">
+                <h3 className="font-display text-neon-pink text-xs [letter-spacing:0.1em] mb-2">
+                  &gt; {t.project.solution}
                 </h3>
-                <p className="text-zinc-400">{project.solution}</p>
+                <p className="font-body text-zinc-400 text-lg">{project.solution}</p>
               </div>
             )}
 
             {project.videoUrl && (
               <div className="mb-10">
-                <h3 className="font-display text-zinc-300 text-sm uppercase tracking-wider mb-4">
-                  {t.project.video}
+                <h3 className="font-display text-zinc-300 text-xs [letter-spacing:0.1em] mb-4">
+                  &gt; {t.project.video}
                 </h3>
-                <div className="aspect-video rounded-lg overflow-hidden border border-dark-border bg-black">
+                <div className="aspect-video rounded-none overflow-hidden border-2 border-dark-border bg-black shadow-pixel">
                   <iframe
                     src={youtubeEmbedUrl(project.videoUrl)}
                     title={project.title}
@@ -141,7 +141,7 @@ export default function ProjectPage() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-2.5 rounded font-medium text-sm bg-neon-cyan text-dark-bg hover:bg-neon-cyan/90 transition-colors"
+                  className="px-4 py-2 rounded-none font-display text-xs border-2 border-neon-cyan bg-neon-cyan text-dark-bg hover:bg-neon-cyan/90 transition-all hover:shadow-pixel-cyan"
                 >
                   {link.label}
                 </a>

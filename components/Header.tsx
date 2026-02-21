@@ -35,42 +35,41 @@ export default function Header() {
     >
       <Link
         href="#hero"
-        className="font-display font-bold text-lg tracking-wider text-zinc-100 hover:text-neon-cyan transition-colors"
+        className="font-display font-bold text-sm sm:text-base text-zinc-100 hover:text-neon-cyan transition-colors [letter-spacing:0.1em]"
       >
-        SK
+        [SK]
       </Link>
-      <nav className="flex items-center gap-2 sm:gap-4 md:gap-10">
+      <nav className="flex items-center gap-2 sm:gap-4 md:gap-8">
         {navLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="text-xs sm:text-sm font-medium text-zinc-400 hover:text-neon-cyan transition-colors relative group whitespace-nowrap"
+            className="font-display text-[10px] sm:text-xs text-zinc-400 hover:text-neon-cyan transition-colors whitespace-nowrap border-b-2 border-transparent hover:border-neon-cyan pb-0.5"
           >
             {link.label}
-            <span className="absolute -bottom-1 left-0 w-0 h-px bg-neon-cyan group-hover:w-full transition-all duration-300" />
           </Link>
         ))}
         <button
           type="button"
           onClick={toggleTheme}
-          className="p-1.5 sm:p-2 rounded border border-dark-border text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan/50 transition-colors text-sm shrink-0"
+          className="p-2 border-2 border-dark-border text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan transition-colors shrink-0 font-display text-xs rounded-none"
           title={theme === 'dark' ? 'Светлая тема' : 'Dark theme'}
           aria-label="Toggle theme"
         >
           {theme === 'dark' ? '☀' : '🌙'}
         </button>
-        <div className="flex rounded border border-dark-border overflow-hidden shrink-0">
+        <div className="flex border-2 border-dark-border overflow-hidden shrink-0 rounded-none">
           <button
             type="button"
             onClick={() => setLocale('ru')}
-            className={`px-1.5 sm:px-2 py-1 text-xs sm:text-sm transition-colors ${locale === 'ru' ? 'bg-neon-cyan text-dark-bg' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`px-2 py-1.5 font-display text-[10px] sm:text-xs transition-colors border-r-2 border-dark-border ${locale === 'ru' ? 'bg-neon-cyan text-dark-bg' : 'text-zinc-400 hover:text-zinc-200'}`}
           >
             RU
           </button>
           <button
             type="button"
             onClick={() => setLocale('en')}
-            className={`px-1.5 sm:px-2 py-1 text-xs sm:text-sm transition-colors ${locale === 'en' ? 'bg-neon-cyan text-dark-bg' : 'text-zinc-400 hover:text-zinc-200'}`}
+            className={`px-2 py-1.5 font-display text-[10px] sm:text-xs transition-colors ${locale === 'en' ? 'bg-neon-cyan text-dark-bg' : 'text-zinc-400 hover:text-zinc-200'}`}
           >
             EN
           </button>

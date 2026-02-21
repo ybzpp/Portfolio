@@ -44,7 +44,7 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="relative py-24 px-6 md:px-12 border-t border-dark-border">
+    <footer id="contact" className="relative py-24 px-6 md:px-12 border-t-2 border-dark-border">
       <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -52,26 +52,26 @@ export default function Footer() {
           viewport={{ once: true }}
           className="space-y-6"
         >
-          <h2 className="font-display text-2xl md:text-3xl font-bold text-zinc-100">
-            {t.contact.title}
+          <h2 className="font-display text-lg md:text-xl font-bold text-zinc-100 [letter-spacing:0.05em]">
+            [{t.contact.title}]
           </h2>
-          <p className="text-zinc-400">
+          <p className="font-body text-zinc-400 text-lg">
             {t.contact.desc}
           </p>
           <a
             href="mailto:s.korolev.developer@gmail.com"
-            className="inline-block text-neon-cyan hover:underline font-medium"
+            className="inline-block font-body text-neon-cyan hover:underline text-lg font-medium"
           >
             s.korolev.developer@gmail.com
           </a>
-          <div className="flex flex-wrap gap-4 pt-4">
+          <div className="flex flex-wrap gap-3 pt-4">
             {socials.map((s) => (
               <a
                 key={s.label}
                 href={s.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 rounded border border-dark-border text-zinc-400 hover:border-neon-cyan hover:text-neon-cyan transition-colors text-sm"
+                className="px-3 py-2 font-display text-xs border-2 border-dark-border text-zinc-400 hover:border-neon-cyan hover:text-neon-cyan transition-colors rounded-none"
               >
                 {s.label}
               </a>
@@ -87,11 +87,11 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
         >
-          <h3 className="font-display text-lg text-zinc-300 mb-4">{t.contact.formTitle}</h3>
+          <h3 className="font-display text-sm text-zinc-300 mb-4 [letter-spacing:0.05em]">&gt; {t.contact.formTitle}</h3>
           {sent ? (
-            <p className="text-neon-green">{t.contact.success}</p>
+            <p className="font-body text-neon-green text-lg">{t.contact.success}</p>
           ) : error ? (
-            <p className="text-red-400 text-sm mb-2">{error}</p>
+            <p className="font-body text-red-400 text-lg mb-2">{error}</p>
           ) : null}
           {!sent && (
             <>
@@ -100,7 +100,7 @@ export default function Footer() {
                 placeholder={t.contact.namePlaceholder}
                 value={formData.name}
                 onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
-                className="w-full px-4 py-3 rounded bg-dark-card border border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors"
                 required
               />
               <input
@@ -108,7 +108,7 @@ export default function Footer() {
                 placeholder={t.contact.contactPlaceholder}
                 value={formData.contact}
                 onChange={(e) => setFormData((d) => ({ ...d, contact: e.target.value }))}
-                className="w-full px-4 py-3 rounded bg-dark-card border border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none transition-colors"
+                className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors"
                 required
               />
               <textarea
@@ -116,13 +116,13 @@ export default function Footer() {
                 value={formData.message}
                 onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
                 rows={4}
-                className="w-full px-4 py-3 rounded bg-dark-card border border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none transition-colors resize-none"
+                className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors resize-none"
                 required
               />
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-3 rounded font-display text-sm tracking-wider uppercase bg-neon-pink text-white hover:bg-neon-pink/90 transition-all hover:shadow-neon-pink disabled:opacity-60"
+                className="px-6 py-3 rounded-none font-display text-xs border-2 border-neon-pink bg-neon-pink text-white hover:bg-neon-pink/90 transition-all hover:shadow-pixel-pink disabled:opacity-60"
               >
                 {loading ? t.contact.sending : t.contact.submit}
               </button>
@@ -131,7 +131,7 @@ export default function Footer() {
         </motion.form>
       </div>
 
-      <div className="max-w-5xl mx-auto mt-16 pt-8 border-t border-dark-border text-center text-zinc-500 text-sm">
+      <div className="max-w-5xl mx-auto mt-16 pt-8 border-t-2 border-dark-border text-center font-body text-zinc-500 text-lg">
         {t.footer.replace('{year}', String(new Date().getFullYear()))}
       </div>
     </footer>

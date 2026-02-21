@@ -34,17 +34,17 @@ export default function Portfolio() {
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-zinc-100 mb-4">
-            {t.portfolio.title}
+          <h2 className="font-display text-xl md:text-2xl font-bold text-zinc-100 mb-4 [letter-spacing:0.05em]">
+            [{t.portfolio.title}]
           </h2>
-          <p className="text-zinc-400 max-w-xl mx-auto">
+          <p className="font-body text-zinc-400 text-lg max-w-xl mx-auto">
             {t.portfolio.desc}
           </p>
         </motion.div>
 
-        {/* Filters */}
+        {/* Filters - pixel buttons */}
         <motion.div
-          className="flex flex-wrap justify-center gap-2 mb-12"
+          className="flex flex-wrap justify-center gap-3 mb-12"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -54,10 +54,10 @@ export default function Portfolio() {
             <button
               key={cat.id}
               onClick={() => setActiveFilter(cat.id)}
-              className={`px-5 py-2.5 rounded font-medium text-sm transition-all duration-300 ${
+              className={`px-4 py-2 font-display text-xs border-2 rounded-none transition-all duration-200 ${
                 activeFilter === cat.id
-                  ? 'bg-neon-cyan text-dark-bg'
-                  : 'bg-dark-card text-zinc-400 border border-dark-border hover:border-neon-cyan/50 hover:text-zinc-200'
+                  ? 'bg-neon-cyan text-dark-bg border-neon-cyan shadow-pixel-cyan'
+                  : 'bg-dark-card text-zinc-400 border-dark-border hover:border-neon-cyan/70 hover:text-zinc-200'
               }`}
             >
               {cat.label}
@@ -82,7 +82,7 @@ export default function Portfolio() {
                 className="group"
               >
                 <Link href={`/projects/${project.slug}`}>
-                  <div className="relative overflow-hidden rounded-lg bg-dark-card border border-dark-border hover:border-neon-cyan/40 transition-all duration-300 h-64">
+                  <div className="relative overflow-hidden rounded-none bg-dark-card border-2 border-dark-border hover:border-neon-cyan transition-all duration-200 h-64 shadow-pixel group-hover:shadow-pixel-cyan">
                     {/* Cover image — fallback if no image or 404 */}
                     <div className="absolute inset-0 bg-dark-border/50 flex items-center justify-center">
                       {project.cover && !imageErrors[project.slug] ? (
@@ -94,21 +94,21 @@ export default function Portfolio() {
                           onError={() => setImageErrors((prev) => ({ ...prev, [project.slug]: true }))}
                         />
                       ) : (
-                        <span className="font-display text-5xl text-zinc-600 select-none">
+                        <span className="font-display text-4xl text-zinc-600 select-none">
                           {project.title.charAt(0)}
                         </span>
                       )}
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="font-display text-lg font-semibold text-zinc-100 group-hover:text-neon-cyan transition-colors">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 border-t-2 border-dark-border bg-dark-bg/90">
+                      <h3 className="font-display text-sm font-semibold text-zinc-100 group-hover:text-neon-cyan transition-colors">
                         {project.title}
                       </h3>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {project.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="portfolio-card-tag text-xs px-2 py-0.5 rounded bg-neon-cyan/20 text-neon-cyan"
+                            className="portfolio-card-tag font-display text-[10px] px-2 py-0.5 border border-neon-cyan/50 bg-neon-cyan/20 text-neon-cyan rounded-none"
                           >
                             {tag}
                           </span>

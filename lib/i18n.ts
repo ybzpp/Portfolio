@@ -4,17 +4,17 @@ export const translations = {
   ru: {
     nav: { works: 'Работы', about: 'Обо мне', contact: 'Контакты' },
     hero: {
-      subtitle: 'Game Developer & Motion Designer',
+      subtitle: 'Unity Developer · Playable Ads',
       title: 'Sergey',
       titleHighlight: ' Korolev',
-      desc: 'Создаю механики игр на Unity и оживляю интерфейсы с помощью анимации. Технический артист и креативный разработчик — от кода до моушн-дизайна.',
+      desc: 'Разрабатываю игры на Unity: механики, прототипы, полировка. Оживляю интерфейсы анимацией. Специалист по Playable Ads — быстрая разработка и качественный результат.',
       ctaWorks: 'Смотреть работы',
       ctaContact: 'Связаться со мной',
       scroll: 'Scroll',
     },
     portfolio: {
       title: 'Портфолио',
-      desc: 'Игры, моушн и проекты на стыке разработки и дизайна.',
+      desc: 'Игры, прототипы и Playable Ads: гипер-казуал, мультиплеер, рекламные креативы.',
       all: 'Все',
       gamedev: 'GameDev',
       motion: 'Motion Design',
@@ -24,13 +24,11 @@ export const translations = {
       hardSkills: 'Hard Skills',
       softSkills: 'Soft Skills',
       experience: 'Опыт',
-      bio: 'Разработчик игр и моушн-дизайнер. Объединяю код и визуал: от механик в Unity до анимации интерфейсов и VFX. Участвую в game jams, релизах на мобильных и в браузере.',
+      bio: 'Unity-разработчик с 5 годами опыта в игровой индустрии. Глубокие знания Unity, C# и сетевого программирования. Работал над match-3, гипер-казуалом и мультиплеером (до 32 игроков). Сотрудничал с паблишерами Voodoo, Supersonic, Ducky. Несколько лет в роли лида: повышение эффективности команды, собеседования и найм. Умею создавать рекламные креативы и промо-материалы.',
       timeline: [
         { year: 'Сейчас', text: 'BeNice Games — Unity Tech Lead' },
-        { year: '2021', text: 'Начало коммерческой разработки игр, участие в Ludum Dare' },
-        { year: '2022', text: 'Релизы на Google Play, моушн и рекламные ролики' },
-        { year: '2023–24', text: 'Мобильные и браузерные проекты, Yandex Games, студийная работа' },
-        { year: '2025', text: 'Ludum Dare 57, фокус на геймдев и технический арт' },
+        { year: '2021–24', text: 'Zlodey Studios — Unity Developer: гипер-казуал, 20+ прототипов, мультиплеер (Photon Fusion). Релизы: Stargating, Yolk Knight, Date\'n\'Run. Лид: набор команды, оптимизация процессов.' },
+        { year: '2019–21', text: 'Cedar Game Studio — Motion Designer: промо и рекламные креативы.' },
       ] as { year: string; text: string }[],
     },
     contact: {
@@ -45,7 +43,7 @@ export const translations = {
       success: 'Сообщение отправлено. Спасибо!',
       error: 'Ошибка отправки',
     },
-    footer: '© {year} Sergey Korolev. Game Developer & Motion Designer.',
+    footer: '© {year} Sergey Korolev. Unity Developer · Playable Ads.',
     project: {
       back: 'Назад',
       backToPortfolio: '← Назад к портфолио',
@@ -58,17 +56,17 @@ export const translations = {
   en: {
     nav: { works: 'Works', about: 'About', contact: 'Contact' },
     hero: {
-      subtitle: 'Game Developer & Motion Designer',
+      subtitle: 'Unity Developer · Playable Ads',
       title: 'Sergey',
       titleHighlight: ' Korolev',
-      desc: 'I create game mechanics in Unity and bring interfaces to life with animation. Technical artist and creative developer — from code to motion design.',
+      desc: 'I build games in Unity: mechanics, prototypes, polish. I bring interfaces to life with animation. Specialized in Playable Ads — fast development and solid quality.',
       ctaWorks: 'View work',
       ctaContact: 'Contact me',
       scroll: 'Scroll',
     },
     portfolio: {
       title: 'Portfolio',
-      desc: 'Games, motion design and projects at the intersection of development and design.',
+      desc: 'Games, prototypes and Playable Ads: hyper-casual, multiplayer, ad creatives.',
       all: 'All',
       gamedev: 'GameDev',
       motion: 'Motion Design',
@@ -78,13 +76,11 @@ export const translations = {
       hardSkills: 'Hard Skills',
       softSkills: 'Soft Skills',
       experience: 'Experience',
-      bio: 'Game developer and motion designer. I combine code and visuals: from Unity mechanics to UI animation and VFX. I take part in game jams and releases on mobile and web.',
+      bio: 'Unity Developer with 5 years in the game industry. Strong in Unity, C# and network programming. Shipped match-3, hyper-casual and multiplayer titles (up to 32 players). Worked with publishers like Voodoo, Supersonic, Ducky. Spent several years as team lead: improving team efficiency, conducting interviews and hiring. Experienced in ad creatives and promo materials.',
       timeline: [
         { year: 'Now', text: 'BeNice Games — Unity Tech Lead' },
-        { year: '2021', text: 'Started commercial game dev, Ludum Dare' },
-        { year: '2022', text: 'Releases on Google Play, motion and ad spots' },
-        { year: '2023–24', text: 'Mobile and browser projects, Yandex Games, studio work' },
-        { year: '2025', text: 'Ludum Dare 57, focus on gamedev and tech art' },
+        { year: '2021–24', text: 'Zlodey Studios — Unity Developer: hyper-casual, 20+ prototypes, multiplayer (Photon Fusion). Shipped Stargating, Yolk Knight, Date\'n\'Run. Team lead: hiring, process optimization.' },
+        { year: '2019–21', text: 'Cedar Game Studio — Motion Designer: promos and ad creatives.' },
       ] as { year: string; text: string }[],
     },
     contact: {
@@ -99,7 +95,7 @@ export const translations = {
       success: 'Message sent. Thank you!',
       error: 'Send failed',
     },
-    footer: '© {year} Sergey Korolev. Game Developer & Motion Designer.',
+    footer: '© {year} Sergey Korolev. Unity Developer · Playable Ads.',
     project: {
       back: 'Back',
       backToPortfolio: '← Back to portfolio',
