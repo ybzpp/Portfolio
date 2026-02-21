@@ -107,4 +107,4 @@ export const translations = {
   },
 } as const;
 
-export type T = typeof translations.ru;
+export type T = typeof translations[Locale];
