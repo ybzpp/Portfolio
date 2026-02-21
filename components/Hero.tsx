@@ -47,11 +47,11 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-6 pt-20"
+      className="relative min-h-[120vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-20"
     >
       {/* Pixel grid background */}
       <div
-        className="absolute inset-0 bg-grid-pattern opacity-60"
+        className="absolute inset-0 bg-grid-pattern opacity-30"
         style={{ backgroundSize: '16px 16px' }}
       />
 
@@ -146,7 +146,7 @@ export default function Hero() {
       </div>
 
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}

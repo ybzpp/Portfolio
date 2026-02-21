@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Press_Start_2P, VT323 } from 'next/font/google';
+import { Press_Start_2P, Manrope } from 'next/font/google';
 import './globals.css';
 import Providers from '@/components/Providers';
 
@@ -10,10 +10,10 @@ const pressStart = Press_Start_2P({
   display: 'swap',
 });
 
-const vt323 = VT323({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-vt323',
+const manrope = Manrope({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600'],
+  variable: '--font-body',
   display: 'swap',
 });
 
@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${pressStart.variable} ${vt323.variable} noise-overlay`}
+      className={`${pressStart.variable} ${manrope.variable} noise-overlay`}
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-dark-bg text-zinc-200 font-body relative pixel-grid-bg starfield">

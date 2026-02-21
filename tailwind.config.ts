@@ -24,7 +24,7 @@ const config: Config = {
       },
       fontFamily: {
         display: ['var(--font-pixel)', 'monospace'],
-        body: ['var(--font-vt323)', 'monospace'],
+        body: ['var(--font-body)', 'sans-serif'],
       },
       borderWidth: {
         'pixel': '3px',

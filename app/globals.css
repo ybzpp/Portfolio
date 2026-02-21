@@ -64,7 +64,7 @@ html {
 body {
   background-color: var(--bg);
   color: var(--text-primary);
-  font-family: var(--font-vt323), monospace;
+  font-family: var(--font-body), sans-serif;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -85,8 +85,8 @@ body {
 /* Pixel grid background (space station / game grid) */
 .pixel-grid-bg {
   background-image:
-    linear-gradient(rgba(0, 245, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 245, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
   background-size: 16px 16px;
 }
 

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Документация — Портфолио</title>
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --card: #1a1a1f;
+      --text: #e4e4e7;
+      --muted: #71717a;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --border: #27272a;
+      --code-bg: #18181b;
+      --success: #22c55e;
+      --warning: #eab308;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h1 {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    h3 { font-size: 1.05rem; margin-top: 1.25rem; color: var(--muted); }
+    p { margin: 0.5rem 0; color: var(--muted); }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; color: var(--accent-hover); }
+    ul, ol { margin: 0.5rem 0; padding-left: 1.5rem; color: var(--muted); }
+    li { margin: 0.25rem 0; }
+    code, kbd {
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+      color: var(--text);
+    }
+    pre {
+      background: var(--code-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+    }
+    pre code { padding: 0; background: none; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+    }
+    th { background: var(--card); color: var(--text); }
+    td { color: var(--muted); }
+    .nav {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: var(--card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .nav a { margin-right: 1rem; }
+    .note {
+      background: rgba(59, 130, 246, 0.1);
+      border-left: 4px solid var(--accent);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .note p { margin: 0; color: var(--text); }
+    .warning {
+      background: rgba(234, 179, 8, 0.1);
+      border-left: 4px solid var(--warning);
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 0 6px 6px 0;
+    }
+    .file { font-family: ui-monospace, monospace; color: var(--accent); }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="#overview">Обзор</a>
+    <a href="#config">Где что настраивать</a>
+    <a href="#telegram">Telegram-уведомления</a>
+    <a href="#admin">Админка</a>
+    <a href="#deploy">Деплой на VPS</a>
+    <a href="#env-server">Переменные на сервере</a>
+  </nav>
+
+  <h1>Документация портфолио</h1>
+  <p>Где и как настроить проект, Telegram, деплой и SSL.</p>
+
+  <h2 id="overview">Обзор проекта</h2>
+  <p>Next.js 14, форма обратной связи отправляет заявки в Telegram. Отдельной веб-админки нет — уведомления приходят в мессенджер.</p>
+
+  <h2 id="config">Где что настраивать</h2>
+  <table>
+    <thead>
+      <tr><th>Что</th><th>Где</th><th>Как</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Telegram-бот (уведомления с формы)</td>
+        <td><span class="file">.env</span> (локально и на сервере)</td>
+        <td><code>TELEGRAM_BOT_TOKEN</code>, <code>TELEGRAM_CHAT_ID</code>. Подробнее в разделе <a href="#telegram">Telegram</a>.</td>
+      </tr>
+      <tr>
+        <td>Ссылки в футере (Telegram, GitHub, Itch.io и т.д.)</td>
+        <td><span class="file">components/Footer.tsx</span></td>
+        <td>Массив <code>socials</code>: поменять <code>href</code> и при необходимости <code>label</code>.</td>
+      </tr>
+      <tr>
+        <td>Проекты (портфолио-карточки)</td>
+        <td><span class="file">data/projects.json</span></td>
+        <td>JSON: <code>slug</code>, <code>title</code>, <code>year</code>, <code>category</code>, <code>tags</code>, <code>cover</code>, <code>description</code>, <code>videoUrl</code>, <code>links</code>, <code>gallery</code>.</td>
+      </tr>
+      <tr>
+        <td>Картинки проектов</td>
+        <td><span class="file">public/res/</span></td>
+        <td>Положить файлы (png/jpg), в <code>projects.json</code> указать <code>cover: "/res/имя-файла.png"</code>.</td>
+      </tr>
+      <tr>
+        <td>Тексты интерфейса (RU/EN)</td>
+        <td><span class="file">lib/i18n.ts</span></td>
+        <td>Объекты <code>ru</code> и <code>en</code> с полями для Hero, контактов, кнопок и т.д.</td>
+      </tr>
+      <tr>
+        <td>Домен и SSL на VPS</td>
+        <td>Nginx + DNS + Certbot</td>
+        <td>Конфиг Nginx в <code>/etc/nginx/sites-available/</code>, A-записи у регистратора, <code>certbot --nginx</code>. Подробнее в <a href="#deploy">Деплой</a>.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="telegram">Telegram-уведомления</h2>
+  <p>При отправке формы с сайта запрос уходит на <code>POST /api/contact</code>. API отправляет сообщение в Telegram. Без настроенного бота форма вернёт ошибку «Telegram not configured».</p>
+
+  <h3>Шаг 1: Создать бота и получить токен</h3>
+  <ol>
+    <li>Откройте в Telegram <a href="https://t.me/BotFather" target="_blank" rel="noopener">@BotFather</a>.</li>
+    <li>Отправьте <code>/newbot</code>, укажите имя и username бота.</li>
+    <li>Скопируйте выданный токен (вид: <code>123456789:ABCdefGHI...</code>). Это <strong>TELEGRAM_BOT_TOKEN</strong>.</li>
+  </ol>
+
+  <h3>Шаг 2: Узнать Chat ID</h3>
+  <p><strong>Личные сообщения вам:</strong></p>
+  <ol>
+    <li>Напишите созданному боту любое сообщение (чтобы был диалог).</li>
+    <li>Откройте <a href="https://t.me/userinfobot" target="_blank" rel="noopener">@userinfobot</a>, отправьте ему любое сообщение.</li>
+    <li>Бот пришлёт ваш <strong>Id</strong> — это и есть <strong>TELEGRAM_CHAT_ID</strong> (число, например <code>123456789</code>).</li>
+  </ol>
+  <p><strong>Группа:</strong> добавьте бота в группу, напишите в группе сообщение, затем откройте в браузере:</p>
+  <pre><code>https://api.telegram.org/bot&lt;ВАШ_ТОКЕН&gt;/getUpdates</code></pre>
+  <p>В ответе найдите <code>"chat":{"id":-123456789}</code> — этот <code>id</code> и есть chat_id для группы.</p>
+
+  <h3>Шаг 3: Прописать в .env</h3>
+  <p>Локально (для разработки) и на сервере создайте или отредактируйте файл <span class="file">.env</span> в корне проекта:</p>
+  <pre><code># Копировать из .env.example
+TELEGRAM_BOT_TOKEN=123456789:ABCdef...
+TELEGRAM_CHAT_ID=123456789</code></pre>
+  <p>На сервере после изменения <code>.env</code> перезапустите приложение: <code>pm2 restart portfolio</code>.</p>
+
+  <div class="note">
+    <p><strong>Важно:</strong> <code>.env</code> не коммитить в Git. В репозитории уже есть <span class="file">.env.example</span> с подсказками — на сервере создайте свой <code>.env</code> по этому образцу.</p>
+  </div>
+
+  <h2 id="admin">Админка</h2>
+  <p>В проекте <strong>нет встроенной веб-админки</strong>. Все заявки с формы обратной связи приходят в Telegram — это и есть канал уведомлений для вас.</p>
+  <p>Если позже понадобится админ-панель (например, просмотр заявок в браузере или редактирование проектов), её нужно будет добавить отдельно: страница <code>/admin</code>, авторизация (логин/пароль или OAuth) и при необходимости база данных.</p>
+
+  <h2 id="deploy">Деплой на VPS (Ubuntu 24.04)</h2>
+  <p>Краткий порядок действий. Подробные команды — в файле <span class="file">DEPLOY.md</span> в корне проекта.</p>
+  <ol>
+    <li><strong>Сервер:</strong> Ubuntu 24.04, SSH-доступ.</li>
+    <li><strong>Установить:</strong> Node.js 20, Nginx, PM2, Git.</li>
+    <li><strong>Проект:</strong> клонировать в <code>/var/www/portfolio</code>, создать <code>.env</code> с Telegram-переменными, выполнить <code>npm install</code>, <code>npm run build</code>, запуск через <code>pm2 start npm --name "portfolio" -- start</code>.</li>
+    <li><strong>Nginx:</strong> конфиг в <code>/etc/nginx/sites-available/portfolio</code> с <code>server_name</code> = ваш домен и <code>proxy_pass http://127.0.0.1:3000</code>.</li>
+    <li><strong>Домен:</strong> у регистратора домена создать A-записи для <code>@</code> и <code>www</code> на IP VPS.</li>
+    <li><strong>SSL:</strong> <code>sudo apt install certbot python3-certbot-nginx</code>, затем <code>sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com</code>.</li>
+  </ol>
+  <p>Обновление после изменений: <code>git pull</code> → <code>npm install</code> → <code>npm run build</code> → <code>pm2 restart portfolio</code>.</p>
+
+  <h2 id="env-server">Переменные окружения на сервере</h2>
+  <p>На VPS в корне проекта должен быть файл <span class="file">.env</span> с переменными, которые использует приложение. Сейчас это только Telegram:</p>
+  <table>
+    <thead>
+      <tr><th>Переменная</th><th>Описание</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>TELEGRAM_BOT_TOKEN</code></td><td>Токен бота от @BotFather</td></tr>
+      <tr><td><code>TELEGRAM_CHAT_ID</code></td><td>ID чата (личный или группы), куда слать уведомления</td></tr>
+    </tbody>
+  </table>
+  <p>Создание файла на сервере:</p>
+  <pre><code>cd /var/www/portfolio
+nano .env</code></pre>
+  <p>Вставьте строки с подставленными значениями. После сохранения: <code>pm2 restart portfolio</code>.</p>
+
+  <p style="margin-top: 2rem; color: var(--muted); font-size: 0.9rem;">Документация сгенерирована для проекта Portfolio. Полный деплой-гайд — <span class="file">DEPLOY.md</span>.</p>
+</body>
+</html>
