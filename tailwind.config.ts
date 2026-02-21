@@ -15,11 +15,11 @@ const config: Config = {
           border: 'var(--border, #2a2a4a)',
         },
         neon: {
-          pink: '#ff2a6d',
-          cyan: '#00f5ff',
-          green: '#39ff14',
-          purple: '#bf5fff',
-          yellow: '#ffeb3b',
+          pink: 'var(--neon-pink)',
+          cyan: 'var(--neon-cyan)',
+          green: 'var(--neon-green)',
+          purple: 'var(--neon-purple)',
+          yellow: 'var(--neon-yellow)',
         },
       },
       fontFamily: {
@@ -53,7 +53,7 @@ const config: Config = {
         },
       },
       backgroundImage: {
-        'grid-pattern': 'linear-gradient(rgba(0, 245, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 245, 255, 0.08) 1px, transparent 1px)',
+        'grid-pattern': 'linear-gradient(color-mix(in srgb, var(--neon-cyan) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--neon-cyan) 8%, transparent) 1px, transparent 1px)',
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
       backgroundSize: {
@@ -61,11 +61,11 @@ const config: Config = {
       },
       boxShadow: {
         'pixel': '4px 4px 0 var(--card-border, #1e1e3f)',
-        'pixel-cyan': '4px 4px 0 rgba(0, 245, 255, 0.4)',
-        'pixel-pink': '4px 4px 0 rgba(255, 42, 109, 0.4)',
-        'neon-pink': '0 0 20px rgba(255, 42, 109, 0.4), 0 0 40px rgba(255, 42, 109, 0.2)',
-        'neon-cyan': '0 0 20px rgba(0, 245, 255, 0.4), 0 0 40px rgba(0, 245, 255, 0.2)',
-        'neon-green': '0 0 20px rgba(57, 255, 20, 0.4)',
+        'pixel-cyan': '4px 4px 0 color-mix(in srgb, var(--neon-cyan) 40%, transparent)',
+        'pixel-pink': '4px 4px 0 color-mix(in srgb, var(--neon-pink) 40%, transparent)',
+        'neon-pink': '0 0 20px color-mix(in srgb, var(--neon-pink) 40%, transparent), 0 0 40px color-mix(in srgb, var(--neon-pink) 20%, transparent)',
+        'neon-cyan': '0 0 20px color-mix(in srgb, var(--neon-cyan) 40%, transparent), 0 0 40px color-mix(in srgb, var(--neon-cyan) 20%, transparent)',
+        'neon-green': '0 0 20px color-mix(in srgb, var(--neon-green) 40%, transparent)',
       },
     },
   },

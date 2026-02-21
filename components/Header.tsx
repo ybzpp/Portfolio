@@ -2,7 +2,6 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
-import { useTheme } from '@/lib/theme';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const navKeys = ['works', 'about', 'contact'] as const;
@@ -11,11 +10,8 @@ export default function Header() {
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 120], [0, 0.95]);
   const borderOpacity = useTransform(scrollY, [0, 120], [0, 1]);
-  const { theme, toggleTheme } = useTheme();
-  const bgFrom = theme === 'light' ? '244, 244, 245' : '10, 10, 15';
-  const borderFrom = theme === 'light' ? '228, 228, 231' : '30, 30, 46';
-  const backgroundColor = useTransform(bgOpacity, (v) => `rgba(${bgFrom}, ${v})`);
-  const borderBottomColor = useTransform(borderOpacity, (v) => `rgba(${borderFrom}, ${v})`);
+  const backgroundColor = useTransform(bgOpacity, (v) => `rgba(10, 10, 15, ${v})`);
+  const borderBottomColor = useTransform(borderOpacity, (v) => `rgba(30, 30, 46, ${v})`);
   const { locale, setLocale, t } = useLanguage();
 
   const navLinks = [
@@ -49,15 +45,6 @@ export default function Header() {
             {link.label}
           </Link>
         ))}
-        <button
-          type="button"
-          onClick={toggleTheme}
-          className="p-2 border-2 border-dark-border text-zinc-400 hover:text-neon-cyan hover:border-neon-cyan transition-colors shrink-0 font-display text-xs rounded-none"
-          title={theme === 'dark' ? 'Светлая тема' : 'Dark theme'}
-          aria-label="Toggle theme"
-        >
-          {theme === 'dark' ? '☀' : '🌙'}
-        </button>
         <div className="flex border-2 border-dark-border overflow-hidden shrink-0 rounded-none">
           <button
             type="button"

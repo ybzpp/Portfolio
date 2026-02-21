@@ -42,6 +42,10 @@ export const translations = {
       sending: 'Отправка…',
       success: 'Сообщение отправлено. Спасибо!',
       error: 'Ошибка отправки',
+      errorTelegramNotConfigured: 'Telegram не настроен. Укажите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID на сервере.',
+      errorTelegramSendFailed: 'Не удалось отправить в Telegram. Проверьте токен бота и chat_id (см. DEPLOY.md).',
+      errorValidation: 'Заполните имя, контакт и сообщение.',
+      errorServer: 'Ошибка сервера. Попробуйте позже.',
     },
     footer: '© {year} Sergey Korolev. Unity Developer · Playable Ads.',
     project: {
@@ -94,6 +98,10 @@ export const translations = {
       sending: 'Sending…',
       success: 'Message sent. Thank you!',
       error: 'Send failed',
+      errorTelegramNotConfigured: 'Telegram not configured. Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID on the server.',
+      errorTelegramSendFailed: 'Failed to send to Telegram. Check bot token and chat_id (see DEPLOY.md).',
+      errorValidation: 'Please fill name, contact and message.',
+      errorServer: 'Server error. Try again later.',
     },
     footer: '© {year} Sergey Korolev. Unity Developer · Playable Ads.',
     project: {

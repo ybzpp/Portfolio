@@ -20,43 +20,6 @@
   --pixel-border: 3px;
 }
 
-[data-theme="light"] {
-  --bg: #e8e8f0;
-  --bg-space: #d8d8e8;
-  --card: #ffffff;
-  --card-border: #c0c0d8;
-  --border: #a0a0c0;
-  --neon-pink: #c41a5e;
-  --neon-cyan: #0099aa;
-  --neon-green: #2acc10;
-  --neon-purple: #8b2acc;
-  --neon-yellow: #d4b800;
-  --text-primary: #0a0a12;
-  --text-secondary: #3a3a5a;
-  --text-muted: #606080;
-}
-
-[data-theme="light"] body {
-  background-color: var(--bg);
-  color: var(--text-primary);
-}
-
-[data-theme="light"] .text-zinc-100 { color: #0a0a12; }
-[data-theme="light"] .text-zinc-200 { color: #1a1a2a; }
-[data-theme="light"] .text-zinc-300 { color: #2a2a4a; }
-[data-theme="light"] .text-zinc-400 { color: #3a3a5a; }
-[data-theme="light"] .text-zinc-500 { color: #606080; }
-[data-theme="light"] .text-zinc-600 { color: #606080; }
-[data-theme="light"] .bg-dark-bg { background-color: var(--bg); }
-[data-theme="light"] .bg-dark-card { background-color: var(--card); }
-[data-theme="light"] .border-dark-border { border-color: var(--border); }
-[data-theme="light"] .noise-overlay::before { opacity: 0.02; }
-
-[data-theme="light"] .portfolio-card-tag {
-  background-color: rgba(0, 153, 170, 0.2);
-  color: #007788;
-}
-
 html {
   scroll-behavior: smooth;
 }
