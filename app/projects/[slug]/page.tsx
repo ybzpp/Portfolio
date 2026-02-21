@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import projectsData from '@/data/projects.json';
 import { youtubeEmbedUrl } from '@/lib/youtube';
+import { useLanguage } from '@/lib/LanguageContext';
 
 type Project = {
   slug: string;
@@ -25,6 +26,7 @@ type Project = {
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
+  const { t } = useLanguage();
   const [coverError, setCoverError] = useState(false);
   const slug = params.slug as string;
   const project = (projectsData as Project[]).find((p) => p.slug === slug);
@@ -33,9 +35,9 @@ export default function ProjectPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-6">
         <div className="text-center">
-          <h1 className="font-display text-2xl text-zinc-400 mb-4">Проект не найден</h1>
+          <h1 className="font-display text-2xl text-zinc-400 mb-4">{t.project.notFound}</h1>
           <Link href="/#portfolio" className="text-neon-cyan hover:underline">
-            ← Назад к портфолио
+            {t.project.backToPortfolio}
           </Link>
         </div>
       </div>
@@ -55,7 +57,7 @@ export default function ProjectPage() {
           onClick={() => router.back()}
           className="text-sm text-zinc-400 hover:text-neon-cyan transition-colors"
         >
-          ← Назад
+          ← {t.project.back}
         </button>
       </header>
 
@@ -101,7 +103,7 @@ export default function ProjectPage() {
             {project.problem && (
               <div className="mb-8">
                 <h3 className="font-display text-neon-cyan text-sm uppercase tracking-wider mb-2">
-                  Задача
+                  {t.project.task}
                 </h3>
                 <p className="text-zinc-400">{project.problem}</p>
               </div>
@@ -109,7 +111,7 @@ export default function ProjectPage() {
             {project.solution && (
               <div className="mb-8">
                 <h3 className="font-display text-neon-pink text-sm uppercase tracking-wider mb-2">
-                  Решение
+                  {t.project.solution}
                 </h3>
                 <p className="text-zinc-400">{project.solution}</p>
               </div>
@@ -118,7 +120,7 @@ export default function ProjectPage() {
             {project.videoUrl && (
               <div className="mb-10">
                 <h3 className="font-display text-zinc-300 text-sm uppercase tracking-wider mb-4">
-                  Видео
+                  {t.project.video}
                 </h3>
                 <div className="aspect-video rounded-lg overflow-hidden border border-dark-border bg-black">
                   <iframe

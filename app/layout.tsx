@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Orbitron, Rajdhani } from 'next/font/google';
 import './globals.css';
+import Providers from '@/components/Providers';
 
 const orbitron = Orbitron({
   subsets: ['latin'],
@@ -34,9 +35,15 @@ export default function RootLayout({
     <html
       lang="ru"
       className={`${orbitron.variable} ${rajdhani.variable} noise-overlay`}
+      suppressHydrationWarning
     >
       <body className="antialiased min-h-screen bg-dark-bg text-zinc-200 font-body">
-        {children}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('portfolio-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);})();`,
+          }}
+        />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

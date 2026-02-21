@@ -4,19 +4,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useState, useMemo } from 'react';
 import projectsData from '@/data/projects.json';
+import { useLanguage } from '@/lib/LanguageContext';
 
-type Category = 'all' | 'gamedev' | 'motion' | 'cross';
-
-const categories: { id: Category; label: string }[] = [
-  { id: 'all', label: 'Все' },
-  { id: 'gamedev', label: 'GameDev' },
-  { id: 'motion', label: 'Motion Design' },
-  { id: 'cross', label: 'Cross-disciplinary' },
-];
+type Category = 'all' | 'gamedev' | 'motion';
 
 export default function Portfolio() {
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<Category>('all');
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+
+  const categories: { id: Category; label: string }[] = [
+    { id: 'all', label: t.portfolio.all },
+    { id: 'gamedev', label: t.portfolio.gamedev },
+    { id: 'motion', label: t.portfolio.motion },
+  ];
 
   const filtered = useMemo(() => {
     if (activeFilter === 'all') return projectsData;
@@ -34,10 +35,10 @@ export default function Portfolio() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="font-display text-3xl md:text-5xl font-bold text-zinc-100 mb-4">
-            Портфолио
+            {t.portfolio.title}
           </h2>
           <p className="text-zinc-400 max-w-xl mx-auto">
-            Игры, моушн и проекты на стыке разработки и дизайна.
+            {t.portfolio.desc}
           </p>
         </motion.div>
 
@@ -107,7 +108,7 @@ export default function Portfolio() {
                         {project.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="text-xs px-2 py-0.5 rounded bg-neon-cyan/20 text-neon-cyan"
+                            className="portfolio-card-tag text-xs px-2 py-0.5 rounded bg-neon-cyan/20 text-neon-cyan"
                           >
                             {tag}
                           </span>

@@ -1,22 +1,20 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/lib/LanguageContext';
 
 const hardSkills = {
   gamedev: ['Unity', 'C#', 'Unreal Engine', 'Shader Graph', 'Git'],
   motion: ['After Effects', 'Cinema 4D', 'Blender', 'Spine', 'UI Animation'],
 };
 
-const softSkills = ['Коммуникация', 'Работа в команде', 'Дедлайны', 'Итеративная разработка'];
-
-const timeline = [
-  { year: '2021', text: 'Начало коммерческой разработки игр, участие в Ludum Dare' },
-  { year: '2022', text: 'Релизы на Google Play, моушн и рекламные ролики' },
-  { year: '2023–24', text: 'Мобильные и браузерные проекты, Yandex Games, студийная работа' },
-  { year: '2025', text: 'Ludum Dare 57, фокус на геймдев и технический арт' },
-];
+const softSkillsRu = ['Коммуникация', 'Работа в команде', 'Дедлайны', 'Итеративная разработка'];
+const softSkillsEn = ['Communication', 'Teamwork', 'Deadlines', 'Iterative development'];
 
 export default function About() {
+  const { locale, t } = useLanguage();
+  const softSkills = locale === 'ru' ? softSkillsRu : softSkillsEn;
+
   return (
     <section id="about" className="relative py-24 px-6 md:px-12 bg-dark-card/50">
       <div className="max-w-5xl mx-auto">
@@ -27,11 +25,10 @@ export default function About() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Обо мне
+          {t.about.title}
         </motion.h2>
 
         <div className="grid md:grid-cols-2 gap-12 md:gap-16">
-          {/* Photo placeholder + short bio */}
           <motion.div
             className="space-y-6"
             initial={{ opacity: 0, x: -20 }}
@@ -40,15 +37,18 @@ export default function About() {
             transition={{ duration: 0.5 }}
           >
             <div className="aspect-square max-w-sm rounded-lg overflow-hidden border border-dark-border bg-dark-bg flex items-center justify-center">
-              <span className="text-zinc-500 font-display text-sm">Ваше фото</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/res/photo.png"
+                alt="Sergey Korolev"
+                className="w-full h-full object-cover"
+              />
             </div>
             <p className="text-zinc-400 leading-relaxed">
-              Разработчик игр и моушн-дизайнер. Объединяю код и визуал: от механик в Unity до
-              анимации интерфейсов и VFX. Участвую в game jams, релизах на мобильных и в браузере.
+              {t.about.bio}
             </p>
           </motion.div>
 
-          {/* Skills */}
           <motion.div
             className="space-y-8"
             initial={{ opacity: 0, x: 20 }}
@@ -58,7 +58,7 @@ export default function About() {
           >
             <div>
               <h3 className="font-display text-neon-cyan text-sm uppercase tracking-wider mb-3">
-                Hard Skills
+                {t.about.hardSkills}
               </h3>
               <div className="space-y-4">
                 <div>
@@ -77,16 +77,16 @@ export default function About() {
             </div>
             <div>
               <h3 className="font-display text-neon-pink text-sm uppercase tracking-wider mb-3">
-                Soft Skills
+                {t.about.softSkills}
               </h3>
               <p className="text-zinc-300">{softSkills.join(' · ')}</p>
             </div>
             <div>
               <h3 className="font-display text-neon-green text-sm uppercase tracking-wider mb-3">
-                Опыт
+                {t.about.experience}
               </h3>
               <ul className="space-y-3">
-                {timeline.map((item, i) => (
+                {t.about.timeline.map((item, i) => (
                   <li key={item.year} className="flex gap-4">
                     <span className="text-neon-cyan font-mono text-sm shrink-0 w-16">
                       {item.year}

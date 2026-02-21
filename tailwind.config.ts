@@ -10,9 +10,9 @@ const config: Config = {
     extend: {
       colors: {
         dark: {
-          bg: '#0a0a0f',
-          card: '#12121a',
-          border: '#1e1e2e',
+          bg: 'var(--bg, #0a0a0f)',
+          card: 'var(--card, #12121a)',
+          border: 'var(--border, #1e1e2e)',
         },
         neon: {
           pink: '#ff2a6d',

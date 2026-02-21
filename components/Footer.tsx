@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { useLanguage } from '@/lib/LanguageContext';
 
 const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/sergey-korolev-developer/', icon: 'in' },
@@ -12,14 +13,34 @@ const socials = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({ name: '', contact: '', message: '' });
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder: здесь можно подключить API или mailto
-    setSent(true);
-    setFormData({ name: '', contact: '', message: '' });
+    setError(null);
+    setLoading(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setError(data.error || t.contact.error);
+        return;
+      }
+      setSent(true);
+      setFormData({ name: '', contact: '', message: '' });
+    } catch {
+      setError(t.contact.error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,16 +53,16 @@ export default function Footer() {
           className="space-y-6"
         >
           <h2 className="font-display text-2xl md:text-3xl font-bold text-zinc-100">
-            Контакты
+            {t.contact.title}
           </h2>
           <p className="text-zinc-400">
-            Есть проект или вопрос? Напишите — отвечу в течение дня.
+            {t.contact.desc}
           </p>
           <a
-            href="mailto:your@email.com"
+            href="mailto:s.korolev.developer@gmail.com"
             className="inline-block text-neon-cyan hover:underline font-medium"
           >
-            your@email.com
+            s.korolev.developer@gmail.com
           </a>
           <div className="flex flex-wrap gap-4 pt-4">
             {socials.map((s) => (
@@ -66,14 +87,17 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
         >
-          <h3 className="font-display text-lg text-zinc-300 mb-4">Форма обратной связи</h3>
+          <h3 className="font-display text-lg text-zinc-300 mb-4">{t.contact.formTitle}</h3>
           {sent ? (
-            <p className="text-neon-green">Сообщение отправлено. Спасибо!</p>
-          ) : (
+            <p className="text-neon-green">{t.contact.success}</p>
+          ) : error ? (
+            <p className="text-red-400 text-sm mb-2">{error}</p>
+          ) : null}
+          {!sent && (
             <>
               <input
                 type="text"
-                placeholder="Имя"
+                placeholder={t.contact.namePlaceholder}
                 value={formData.name}
                 onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
                 className="w-full px-4 py-3 rounded bg-dark-card border border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none transition-colors"
@@ -81,14 +105,14 @@ export default function Footer() {
               />
               <input
                 type="text"
-                placeholder="Email или Telegram"
+                placeholder={t.contact.contactPlaceholder}
                 value={formData.contact}
                 onChange={(e) => setFormData((d) => ({ ...d, contact: e.target.value }))}
                 className="w-full px-4 py-3 rounded bg-dark-card border border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none transition-colors"
                 required
               />
               <textarea
-                placeholder="Сообщение"
+                placeholder={t.contact.messagePlaceholder}
                 value={formData.message}
                 onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
                 rows={4}
@@ -97,9 +121,10 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="px-6 py-3 rounded font-display text-sm tracking-wider uppercase bg-neon-pink text-white hover:bg-neon-pink/90 transition-all hover:shadow-neon-pink"
+                disabled={loading}
+                className="px-6 py-3 rounded font-display text-sm tracking-wider uppercase bg-neon-pink text-white hover:bg-neon-pink/90 transition-all hover:shadow-neon-pink disabled:opacity-60"
               >
-                Отправить
+                {loading ? t.contact.sending : t.contact.submit}
               </button>
             </>
           )}
@@ -107,7 +132,7 @@ export default function Footer() {
       </div>
 
       <div className="max-w-5xl mx-auto mt-16 pt-8 border-t border-dark-border text-center text-zinc-500 text-sm">
-        © {new Date().getFullYear()} Sergey Korolev. Game Developer & Motion Designer.
+        {t.footer.replace('{year}', String(new Date().getFullYear()))}
       </div>
     </footer>
   );

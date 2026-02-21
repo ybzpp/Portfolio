@@ -10,6 +10,44 @@
   --neon-cyan: #05d9e8;
   --neon-green: #00ff9f;
   --neon-purple: #9d4edd;
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+}
+
+[data-theme="light"] {
+  --bg: #f4f4f5;
+  --card: #ffffff;
+  --border: #e4e4e7;
+  --neon-pink: #e11d48;
+  --neon-cyan: #0891b2;
+  --neon-green: #059669;
+  --neon-purple: #7c3aed;
+  --text-primary: #18181b;
+  --text-secondary: #52525b;
+  --text-muted: #71717a;
+}
+
+[data-theme="light"] body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+}
+
+[data-theme="light"] .text-zinc-100 { color: #18181b; }
+[data-theme="light"] .text-zinc-200 { color: #27272a; }
+[data-theme="light"] .text-zinc-300 { color: #3f3f46; }
+[data-theme="light"] .text-zinc-400 { color: #52525b; }
+[data-theme="light"] .text-zinc-500 { color: #71717a; }
+[data-theme="light"] .text-zinc-600 { color: #52525b; }
+[data-theme="light"] .bg-dark-bg { background-color: var(--bg); }
+[data-theme="light"] .bg-dark-card { background-color: var(--card); }
+[data-theme="light"] .border-dark-border { border-color: var(--border); }
+[data-theme="light"] .noise-overlay::before { opacity: 0.02; }
+
+/* Карточки портфолио: теги читаемые в светлой теме */
+[data-theme="light"] .portfolio-card-tag {
+  background-color: rgba(8, 145, 178, 0.18);
+  color: #0e7490;
 }
 
 html {
