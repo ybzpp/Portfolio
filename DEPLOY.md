@@ -49,22 +49,40 @@ sudo npm install -g pm2
 
 ## 4. Загрузка проекта на сервер
 
-**Вариант A: через Git (рекомендуется)**
+**Вариант A: Git — выкачать нужную ветку сразу в /var/www/portfolio**
 
-На сервере:
+На сервере (подставьте свой репозиторий и ветку, например `main` или `new-site`):
 
 ```bash
-# Установка Git, если ещё нет
 sudo apt install -y git
+sudo mkdir -p /var/www && sudo chown $USER:$USER /var/www
 
-# Клонирование (подставьте свой репозиторий)
-cd /var/www
-sudo mkdir -p portfolio && sudo chown $USER:$USER portfolio
-cd portfolio
-git clone https://github.com/ВАШ_ЮЗЕР/Portfolio.git .
+# Клонирование конкретной ветки сразу в нужную папку (папка будет создана)
+git clone -b ВЕТКА https://github.com/ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
+cd /var/www/portfolio
+```
 
-# Или по SSH
-# git clone git@github.com:ВАШ_ЮЗЕР/Portfolio.git .
+Пример для ветки `new-site`:
+
+```bash
+git clone -b new-site https://github.com/ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
+cd /var/www/portfolio
+```
+
+Через SSH:
+
+```bash
+git clone -b new-site git@github.com:ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
+cd /var/www/portfolio
+```
+
+Если папка уже есть и нужно просто подтянуть ветку:
+
+```bash
+cd /var/www/portfolio
+git fetch origin
+git checkout ВЕТКА
+git pull origin ВЕТКА
 ```
 
 **Вариант B: через SCP с локального ПК**
@@ -78,6 +96,56 @@ scp -r . next.config.* package*.json public app components data node_modules п�
 ```
 
 Лучше на сервере делать `git clone` и затем `npm install` и `npm run build`, чтобы не тащить `node_modules`.
+
+---
+
+## 4a. Деплой одной командой (Docker)
+
+Чтобы не выполнять кучу команд вручную: на сервере достаточно установить Docker и один раз настроить `.env`, затем деплой — одной командой.
+
+**Установка Docker на Ubuntu 24.04 (один раз):**
+
+```bash
+sudo apt update && sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo usermod -aG docker $USER
+# выйти и зайти по SSH заново, чтобы группа docker применилась
+```
+
+**Выкатить проект с нужной ветки и запустить одной командой:**
+
+```bash
+# Подставьте свой репозиторий и ветку
+REPO=https://github.com/ВАШ_ЮЗЕР/Portfolio.git BRANCH=new-site ./deploy.sh
+```
+
+Скрипт `deploy.sh` (лежит в репозитории) сам клонирует ветку в `/var/www/portfolio`, создаёт `.env` из примера при отсутствии и запускает `docker compose up -d --build`. Первый раз нужно создать `.env` и заполнить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`:
+
+```bash
+cd /var/www/portfolio
+cp .env.example .env && nano .env
+docker compose up -d --build
+```
+
+Дальше Nginx и SSL настраиваются как в шагах 7–9 (proxy_pass на `http://127.0.0.1:3000`).
+
+**Обновление при Docker-деплое:**
+
+```bash
+cd /var/www/portfolio
+git pull origin ВЕТКА
+docker compose up -d --build
+```
+
+Или снова через скрипт (он подтянет ветку и пересоберёт контейнер):
+
+```bash
+cd /var/www/portfolio && BRANCH=new-site ./deploy.sh
+```
 
 ---
 
@@ -219,7 +287,7 @@ sudo certbot renew --dry-run
 
 ## 11. Обновление сайта после изменений
 
-На сервере:
+**Без Docker (PM2):**
 
 ```bash
 cd /var/www/portfolio
@@ -229,16 +297,30 @@ npm run build
 pm2 restart portfolio
 ```
 
+**С Docker:**
+
+```bash
+cd /var/www/portfolio
+git pull origin ВЕТКА
+docker compose up -d --build
+```
+
 ---
 
 ## Краткий чеклист
 
-1. VPS Ubuntu 24.04 + SSH.
-2. Установить: Node.js 20, Nginx, PM2, Git.
-3. Клонировать проект в `/var/www/portfolio`, создать `.env` с `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`, затем `npm install`, `npm run build`, `pm2 start`.
-4. Nginx: конфиг в `sites-available`, симлинк в `sites-enabled`, `server_name` = ваш домен, `proxy_pass` на `http://127.0.0.1:3000`.
-5. DNS: A-записи @ и www на IP VPS.
+**Вариант без Docker:**  
+1. VPS Ubuntu 24.04 + SSH.  
+2. Установить: Node.js 20, Nginx, PM2, Git.  
+3. Клонировать нужную ветку в `/var/www/portfolio`: `git clone -b ВЕТКА URL /var/www/portfolio`. Создать `.env`, затем `npm install`, `npm run build`, `pm2 start`.  
+4. Nginx: конфиг в `sites-available`, `proxy_pass` на `http://127.0.0.1:3000`.  
+5. DNS: A-записи @ и www на IP VPS.  
 6. Certbot: `certbot --nginx -d yourdomain.com -d www.yourdomain.com`.
+
+**Вариант с Docker (одной командой после настройки):**  
+1. Установить Docker и Docker Compose на VPS.  
+2. Один раз: `REPO=... BRANCH=new-site ./deploy.sh`, затем создать/заполнить `.env`, снова `docker compose up -d --build`.  
+3. Nginx и SSL — как выше (proxy_pass на 3000, certbot).
 
 Если что-то пойдёт не так — проверьте логи:
 

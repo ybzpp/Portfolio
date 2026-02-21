@@ -1,0 +1,11 @@
+services:
+  portfolio:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file: .env
+    # если .env нет — передать переменные вручную:
+    # environment:
+    #   - TELEGRAM_BOT_TOKEN=...
+    #   - TELEGRAM_CHAT_ID=...

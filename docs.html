@@ -110,6 +110,8 @@
     <a href="#telegram">Telegram-уведомления</a>
     <a href="#admin">Админка</a>
     <a href="#deploy">Деплой на VPS</a>
+    <a href="#git-branch">Git: нужная ветка в папку</a>
+    <a href="#docker">Деплой одной командой (Docker)</a>
     <a href="#env-server">Переменные на сервере</a>
   </nav>
 
@@ -205,6 +207,29 @@ TELEGRAM_CHAT_ID=123456789</code></pre>
     <li><strong>SSL:</strong> <code>sudo apt install certbot python3-certbot-nginx</code>, затем <code>sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com</code>.</li>
   </ol>
   <p>Обновление после изменений: <code>git pull</code> → <code>npm install</code> → <code>npm run build</code> → <code>pm2 restart portfolio</code>.</p>
+
+  <h2 id="git-branch">Выкачать с Git нужную ветку сразу в /var/www/portfolio</h2>
+  <p>Чтобы клонировать не <code>main</code>, а нужную ветку (например <code>new-site</code>) сразу в целевую папку:</p>
+  <pre><code>sudo mkdir -p /var/www && sudo chown $USER:$USER /var/www
+git clone -b new-site https://github.com/ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
+cd /var/www/portfolio</code></pre>
+  <p>Через SSH: <code>git clone -b new-site git@github.com:ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio</code>.</p>
+  <p>Если папка уже есть и нужно только подтянуть ветку:</p>
+  <pre><code>cd /var/www/portfolio
+git fetch origin
+git checkout new-site
+git pull origin new-site</code></pre>
+
+  <h2 id="docker">Деплой одной командой (Docker)</h2>
+  <p>Не хотите вручную ставить Node, Nginx как reverse proxy оставляете, приложение крутится в контейнере.</p>
+  <ol>
+    <li>На VPS один раз установите Docker и Docker Compose (команды — в <span class="file">DEPLOY.md</span>, раздел 4a).</li>
+    <li>Выкатите проект с нужной ветки и запустите одной командой:</li>
+  </ol>
+  <pre><code>REPO=https://github.com/ВАШ_ЮЗЕР/Portfolio.git BRANCH=new-site ./deploy.sh</code></pre>
+  <p>Скрипт <span class="file">deploy.sh</span> из репозитория клонирует ветку в <code>/var/www/portfolio</code>, при отсутствии создаёт <code>.env</code> из примера и запускает <code>docker compose up -d --build</code>. Первый раз после этого создайте/заполните <code>.env</code> (Telegram) и снова выполните <code>docker compose up -d --build</code>.</p>
+  <p>Дальше настраиваете Nginx (proxy_pass на <code>http://127.0.0.1:3000</code>) и SSL через Certbot — как в разделе <a href="#deploy">Деплой на VPS</a>.</p>
+  <p><strong>Обновление:</strong> <code>cd /var/www/portfolio && git pull origin new-site && docker compose up -d --build</code> или снова <code>BRANCH=new-site ./deploy.sh</code>.</p>
 
   <h2 id="env-server">Переменные окружения на сервере</h2>
   <p>На VPS в корне проекта должен быть файл <span class="file">.env</span> с переменными, которые использует приложение. Сейчас это только Telegram:</p>
