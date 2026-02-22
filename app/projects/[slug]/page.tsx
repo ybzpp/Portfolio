@@ -16,17 +16,20 @@ type Project = {
   tags: string[];
   cover: string;
   description: string;
+  descriptionRu?: string;
   problem?: string;
+  problemRu?: string;
   solution?: string;
+  solutionRu?: string;
   videoUrl: string | null;
-  links: { label: string; url: string }[];
+  links: { label: string; labelRu?: string; url: string }[];
   gallery: string[];
 };
 
 export default function ProjectPage() {
   const params = useParams();
   const router = useRouter();
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [coverError, setCoverError] = useState(false);
   const slug = params.slug as string;
   const project = (projectsData as Project[]).find((p) => p.slug === slug);
@@ -82,7 +85,7 @@ export default function ProjectPage() {
             <h1 className="font-display text-xl md:text-2xl font-bold text-zinc-100 mb-6 [letter-spacing:0.03em]">
               {project.title}
             </h1>
-            <p className="font-body text-zinc-400 text-lg mb-10">{project.description}</p>
+            <p className="font-body text-zinc-400 text-lg mb-10">{locale === 'ru' && project.descriptionRu ? project.descriptionRu : project.description}</p>
 
             {(project.cover && !coverError) ? (
               <div className="rounded-none overflow-hidden border-2 border-dark-border mb-10 aspect-video bg-dark-card flex items-center justify-center shadow-pixel">
@@ -105,7 +108,7 @@ export default function ProjectPage() {
                 <h3 className="font-display text-neon-cyan text-xs [letter-spacing:0.1em] mb-2">
                   &gt; {t.project.task}
                 </h3>
-                <p className="font-body text-zinc-400 text-lg">{project.problem}</p>
+                <p className="font-body text-zinc-400 text-lg">{locale === 'ru' && project.problemRu ? project.problemRu : project.problem}</p>
               </div>
             )}
             {project.solution && (
@@ -113,7 +116,7 @@ export default function ProjectPage() {
                 <h3 className="font-display text-neon-pink text-xs [letter-spacing:0.1em] mb-2">
                   &gt; {t.project.solution}
                 </h3>
-                <p className="font-body text-zinc-400 text-lg">{project.solution}</p>
+                <p className="font-body text-zinc-400 text-lg">{locale === 'ru' && project.solutionRu ? project.solutionRu : project.solution}</p>
               </div>
             )}
 
@@ -143,7 +146,7 @@ export default function ProjectPage() {
                   rel="noopener noreferrer"
                   className="px-4 py-2 rounded-none font-display text-xs border-2 border-neon-cyan bg-neon-cyan text-dark-bg hover:bg-neon-cyan/90 transition-all hover:shadow-pixel-cyan"
                 >
-                  {link.label}
+                  {locale === 'ru' && link.labelRu ? link.labelRu : link.label}
                 </a>
               ))}
             </div>
