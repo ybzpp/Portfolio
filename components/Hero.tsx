@@ -35,7 +35,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-12"
+      className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-12 pb-24 md:pb-28"
     >
       {/* Video background */}
       <div ref={bgRef} className="absolute inset-0 pointer-events-none">
@@ -100,7 +100,8 @@ export default function Hero() {
       </div>
 
       <motion.div
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
+        className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-10"
+        style={{ bottom: 'max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
