@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Press_Start_2P, Manrope } from 'next/font/google';
 import './globals.css';
 import Providers from '@/components/Providers';
+import FloatingParticles from '@/components/FloatingParticles';
 
 const pressStart = Press_Start_2P({
   subsets: ['latin', 'cyrillic'],
@@ -39,6 +40,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-dark-bg text-zinc-200 font-body relative pixel-grid-bg starfield">
+        <FloatingParticles />
         <Providers>{children}</Providers>
       </body>
     </html>
