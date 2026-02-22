@@ -100,7 +100,7 @@ export default function Portfolio() {
                       )}
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4 border-t-2 border-dark-border bg-dark-bg/90">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-dark-bg/90">
                       <h3 className="font-display text-sm font-semibold text-zinc-100 group-hover:text-neon-cyan transition-colors">
                         {project.title}
                       </h3>
