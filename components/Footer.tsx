@@ -32,13 +32,14 @@ export default function Footer() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
         const code = data?.error;
+        const detail = data?.detail && typeof data.detail === 'string' ? data.detail : null;
         const msg =
           code === 'telegram_not_configured' ? t.contact.errorTelegramNotConfigured
           : code === 'telegram_send_failed' ? t.contact.errorTelegramSendFailed
           : code === 'validation_error' ? t.contact.errorValidation
           : code === 'server_error' ? t.contact.errorServer
           : (data?.error && typeof data.error === 'string' ? data.error : null) || t.contact.error;
-        setError(msg);
+        setError(detail ? `${msg} (${detail})` : msg);
         return;
       }
       setSent(true);
