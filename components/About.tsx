@@ -8,8 +8,8 @@ const hardSkills = {
   tools: ['After Effects', 'Photoshop', 'Cinema 4D'],
 };
 
-const softSkillsRu = ['Лидерство', 'Найм и собеседования', 'Эффективность команды', 'Дедлайны', 'Итеративная разработка'];
-const softSkillsEn = ['Leadership', 'Hiring & interviews', 'Team efficiency', 'Deadlines', 'Iterative development'];
+const softSkillsRu = ['Найм и собеседования', 'Эффективность команды', 'Дедлайны', 'Итеративная разработка'];
+const softSkillsEn = ['Hiring & interviews', 'Team efficiency', 'Deadlines', 'Iterative development'];
 
 export default function About() {
   const { locale, t } = useLanguage();
