@@ -54,7 +54,7 @@ export default function Hero() {
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.p
-          className="font-display text-neon-cyan text-xs md:text-sm mb-4 [letter-spacing:0.2em]"
+          className="font-display text-neon-cyan text-xs md:text-sm mb-8 [letter-spacing:0.2em]"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
