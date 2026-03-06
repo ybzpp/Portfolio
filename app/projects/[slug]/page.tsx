@@ -71,8 +71,8 @@ export default function ProjectPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="flex flex-wrap gap-2 mb-4">
-              <span className="font-display text-[10px] text-neon-cyan [letter-spacing:0.05em]">{project.year}</span>
+            <div className="flex flex-wrap items-center gap-2 mb-4">
+              <span className="font-display text-[10px] text-neon-cyan [letter-spacing:0.05em] py-0.5">{project.year}</span>
               {project.tags.map((tag) => (
                 <span
                   key={tag}

@@ -1,56 +1,31 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useRef } from 'react';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLanguage } from '@/lib/LanguageContext';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Hero() {
-  const bgRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const { t } = useLanguage();
 
-  useGSAP(
-    () => {
-      const el = bgRef.current;
-      if (!el) return;
-      gsap.to(el, {
-        y: 80,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: 'section#hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true,
-        },
-      });
-    },
-    { dependencies: [] }
-  );
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, 80]);
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-12 pb-24 md:pb-28"
     >
-      {/* Video background */}
-      <div ref={bgRef} className="absolute inset-0 pointer-events-none">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover opacity-20"
-        >
-          <source src="/showreel.mp4" type="video/mp4" />
-        </video>
+      {/* Background */}
+      <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/90 via-dark-bg/70 to-dark-bg" />
         <div className="absolute inset-0 bg-gradient-to-br from-neon-cyan/5 via-transparent to-neon-pink/5" />
-      </div>
+      </motion.div>
 
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.p

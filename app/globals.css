@@ -460,6 +460,15 @@ body {
   z-index: 9999;
 }
 
+/* Floating particles — pure CSS, no JS animation lib */
+.floating-particle {
+  animation: particle-float 8s ease-in-out infinite;
+}
+@keyframes particle-float {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(-16px); opacity: 1; }
+}
+
 /* Focus visible for keyboard navigation */
 :focus-visible {
   outline: 2px solid var(--neon-cyan);

@@ -91,6 +91,7 @@ export default function Portfolio() {
                           src={project.cover}
                           alt={project.title}
                           className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
                           onError={() => setImageErrors((prev) => ({ ...prev, [project.slug]: true }))}
                         />
                       ) : (
@@ -99,6 +100,13 @@ export default function Portfolio() {
                         </span>
                       )}
                     </div>
+                    {/* Award badge */}
+                    {'award' in project && project.award && (
+                      <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2 py-1 bg-dark-bg/80 border border-neon-yellow/50 backdrop-blur-sm">
+                        <span className="text-base leading-none" aria-hidden="true">🏆</span>
+                        <span className="font-display text-[9px] text-neon-yellow [letter-spacing:0.05em]">{project.award}</span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-dark-bg/90">
                       <h3 className="font-display text-sm font-semibold text-zinc-100 group-hover:text-neon-cyan transition-colors">

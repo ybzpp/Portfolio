@@ -60,7 +60,7 @@ export default function About() {
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
             <HoloCard
-              src="/res/photo.png"
+              src="/res/photo.webp"
               alt="Sergey Korolev"
               name="SERGEY KOROLEV"
               title="GAME DEVELOPER"
