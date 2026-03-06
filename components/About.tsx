@@ -37,7 +37,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <HoloCard src="/res/photo.png" alt="Sergey Korolev" />
+            <HoloCard src="/res/photo.png" alt="Sergey Korolev" name="SERGEY KOROLEV" title="GAME DEVELOPER" />
             <p className="font-body text-zinc-400 text-lg leading-relaxed">
               {t.about.bio}
             </p>
