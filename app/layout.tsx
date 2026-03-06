@@ -22,9 +22,21 @@ export const metadata: Metadata = {
   title: 'Sergey Korolev — Unity Developer · Playable Ads',
   description:
     'Unity Developer with 5 years in game dev. Playable Ads, hyper-casual, multiplayer. Unity, C#, fast development, quality.',
+  metadataBase: new URL('https://sergeykorolev.dev'),
   openGraph: {
     title: 'Sergey Korolev — Unity Developer · Playable Ads',
     description: 'Portfolio: games, prototypes, Playable Ads. Unity, C#, Photon Fusion.',
+    type: 'website',
+    locale: 'ru_RU',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sergey Korolev — Unity Developer',
+    description: 'Portfolio: games, prototypes, Playable Ads.',
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

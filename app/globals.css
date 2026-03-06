@@ -28,6 +28,10 @@ body {
   background-color: var(--bg);
   color: var(--text-primary);
   font-family: var(--font-body), sans-serif;
+}
+
+/* Pixel rendering only for pixel-art elements, not photos */
+.pixel-render {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -95,12 +99,29 @@ body {
   background: var(--neon-green);
 }
 
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--neon-cyan) var(--bg);
+}
+
 ::selection {
   background: rgba(0, 245, 255, 0.35);
   color: #fff;
 }
 
 /* ===== LEGENDARY Holographic Card ===== */
+
+/* Invisible interaction zone — larger than the card to prevent edge jitter */
+.holo-card__zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px;
+  margin: -120px;
+  cursor: pointer;
+}
+
 .holo-card {
   --mx: 50%;
   --my: 50%;
@@ -109,12 +130,10 @@ body {
   --ry: 0deg;
   --s: 1;
   --hyp: 0;
-  width: 320px;
+  width: min(300px, 80vw);
   aspect-ratio: 5 / 7;
   cursor: pointer;
   transform-style: preserve-3d;
-  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale(var(--s));
-  transition: transform 0.25s ease-out;
   will-change: transform;
   margin: 0 auto;
 }
@@ -219,52 +238,70 @@ body {
 
 /* Nameplate */
 .holo-card__nameplate {
-  padding: 10px 4px 2px;
+  padding: 12px 8px 0;
   text-align: center;
   position: relative;
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.holo-card__nameplate::before {
+  content: '';
+  display: block;
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-pink), transparent);
+  margin-bottom: 2px;
+  opacity: 0.5;
 }
 
 .holo-card__name {
   display: block;
   font-family: var(--font-pixel), monospace;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   color: #fff;
-  letter-spacing: 0.12em;
-  text-shadow: 0 0 12px var(--neon-cyan), 0 0 24px rgba(0, 245, 255, 0.4);
+  letter-spacing: 0.15em;
+  text-shadow:
+    0 0 10px var(--neon-cyan),
+    0 0 20px rgba(0, 245, 255, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.8);
+  line-height: 1;
 }
 
 .holo-card__title {
   display: block;
-  font-family: var(--font-body), sans-serif;
-  font-size: 10px;
+  font-family: var(--font-pixel), monospace;
+  font-size: 9px;
   color: var(--neon-pink);
-  letter-spacing: 0.08em;
-  margin-top: 2px;
+  letter-spacing: 0.2em;
   text-shadow: 0 0 8px rgba(255, 42, 109, 0.5);
+  line-height: 1;
 }
 
 /* Rarity stars */
 .holo-card__rarity {
   display: flex;
   justify-content: center;
-  gap: 4px;
-  padding: 4px 0 2px;
+  gap: 6px;
+  padding: 6px 0 4px;
   position: relative;
   z-index: 3;
 }
 
 .holo-card__star {
-  font-size: 12px;
+  font-size: 10px;
   color: var(--neon-yellow);
-  text-shadow: 0 0 8px var(--neon-yellow), 0 0 16px rgba(255, 235, 59, 0.4);
+  text-shadow: 0 0 6px var(--neon-yellow), 0 0 14px rgba(255, 235, 59, 0.4);
   animation: star-pulse 2s ease-in-out infinite;
 }
 
 @keyframes star-pulse {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.2); }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
 }
 
 /* ---- Holographic foil overlay ---- */
@@ -412,22 +449,6 @@ body {
   to { filter: blur(18px) hue-rotate(360deg); }
 }
 
-/* Idle floating animation */
-.holo-card:not(:hover) {
-  animation: card-float 5s ease-in-out infinite;
-}
-
-@keyframes card-float {
-  0%, 100% {
-    transform: perspective(900px) rotateX(2deg) rotateY(-1deg) scale(1);
-  }
-  33% {
-    transform: perspective(900px) rotateX(-1deg) rotateY(2deg) scale(1.01);
-  }
-  66% {
-    transform: perspective(900px) rotateX(1deg) rotateY(-2deg) scale(1);
-  }
-}
 
 /* Noise overlay */
 .noise-overlay::before {
@@ -437,4 +458,25 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 9999;
+}
+
+/* Focus visible for keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .holo-card {
+    transform: none !important;
+  }
+  .holo-card:not(:hover) {
+    animation: none;
+  }
 }

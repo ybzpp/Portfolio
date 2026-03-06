@@ -96,14 +96,18 @@ export default function Footer() {
           transition={{ delay: 0.1 }}
         >
           <h3 className="font-display text-sm text-zinc-300 mb-4 [letter-spacing:0.05em]">&gt; {t.contact.formTitle}</h3>
-          {sent ? (
-            <p className="font-body text-neon-green text-lg">{t.contact.success}</p>
-          ) : error ? (
-            <p className="font-body text-red-400 text-lg mb-2">{error}</p>
-          ) : null}
+          <div aria-live="polite">
+            {sent ? (
+              <p role="status" className="font-body text-neon-green text-lg">{t.contact.success}</p>
+            ) : error ? (
+              <p role="alert" className="font-body text-red-400 text-lg mb-2">{error}</p>
+            ) : null}
+          </div>
           {!sent && (
             <>
+              <label htmlFor="contact-name" className="sr-only">{t.contact.namePlaceholder}</label>
               <input
+                id="contact-name"
                 type="text"
                 placeholder={t.contact.namePlaceholder}
                 value={formData.name}
@@ -111,15 +115,19 @@ export default function Footer() {
                 className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors"
                 required
               />
+              <label htmlFor="contact-email" className="sr-only">{t.contact.contactPlaceholder}</label>
               <input
-                type="text"
+                id="contact-email"
+                type="email"
                 placeholder={t.contact.contactPlaceholder}
                 value={formData.contact}
                 onChange={(e) => setFormData((d) => ({ ...d, contact: e.target.value }))}
                 className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors"
                 required
               />
+              <label htmlFor="contact-message" className="sr-only">{t.contact.messagePlaceholder}</label>
               <textarea
+                id="contact-message"
                 placeholder={t.contact.messagePlaceholder}
                 value={formData.message}
                 onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}

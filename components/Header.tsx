@@ -4,8 +4,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useLanguage } from '@/lib/LanguageContext';
 
-const navKeys = ['works', 'about', 'contact'] as const;
-
 export default function Header() {
   const { scrollY } = useScroll();
   const bgOpacity = useTransform(scrollY, [0, 120], [0, 0.95]);

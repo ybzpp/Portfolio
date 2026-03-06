@@ -1,71 +1,101 @@
 'use client';
 
-import { useRef, useCallback, useEffect, useState } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
 
 export default function HoloCard({ src, alt, name, title }: { src: string; alt: string; name?: string; title?: string }) {
+  const zoneRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const sparkleCanvasRef = useRef<HTMLCanvasElement>(null);
-  const rafRef = useRef<number>(0);
-  const [vars, setVars] = useState({
-    '--mx': '50%',
-    '--my': '50%',
-    '--angle': '0deg',
-    '--rx': '0deg',
-    '--ry': '0deg',
-    '--s': '1',
-    '--hyp': '0',
-  });
+
+  // Target values (set by mouse), current values (lerped each frame)
+  const target = useRef({ x: 0.5, y: 0.5, active: false });
+  const current = useRef({ x: 0.5, y: 0.5, s: 1 });
+  const frameRef = useRef<number>(0);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
     if (!card) return;
     const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    const rotateY = (x - 0.5) * 35;
-    const rotateX = (0.5 - y) * 35;
-    const angle = Math.atan2(y - 0.5, x - 0.5) * (180 / Math.PI) + 180;
-    const hyp = Math.sqrt((x - 0.5) ** 2 + (y - 0.5) ** 2);
-
-    setVars({
-      '--mx': `${x * 100}%`,
-      '--my': `${y * 100}%`,
-      '--angle': `${angle}deg`,
-      '--rx': `${rotateX}deg`,
-      '--ry': `${rotateY}deg`,
-      '--s': '1.06',
-      '--hyp': `${hyp}`,
-    });
+    const rawX = (e.clientX - rect.left) / rect.width;
+    const rawY = (e.clientY - rect.top) / rect.height;
+    target.current.x = Math.max(0.02, Math.min(0.98, rawX));
+    target.current.y = Math.max(0.02, Math.min(0.98, rawY));
+    target.current.active = true;
   }, []);
 
   const handleMouseLeave = useCallback(() => {
-    setVars({
-      '--mx': '50%',
-      '--my': '50%',
-      '--angle': '0deg',
-      '--rx': '0deg',
-      '--ry': '0deg',
-      '--s': '1',
-      '--hyp': '0',
-    });
+    target.current.active = false;
   }, []);
 
-  // Sparkle particles on canvas
+  // Smooth animation loop — lerps current toward target
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+    let running = true;
+
+    const tick = () => {
+      if (!running) return;
+      const t = target.current;
+      const c = current.current;
+      const ease = 0.08;
+
+      const goalX = t.active ? t.x : 0.5;
+      const goalY = t.active ? t.y : 0.5;
+      const goalS = t.active ? 1.04 : 1;
+
+      c.x = lerp(c.x, goalX, ease);
+      c.y = lerp(c.y, goalY, ease);
+      c.s = lerp(c.s, goalS, ease);
+
+      const rx = (0.5 - c.y) * 28;
+      const ry = (c.x - 0.5) * 28;
+      const angle = Math.atan2(c.y - 0.5, c.x - 0.5) * (180 / Math.PI) + 180;
+
+      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale(${c.s})`;
+      card.style.setProperty('--mx', `${c.x * 100}%`);
+      card.style.setProperty('--my', `${c.y * 100}%`);
+      card.style.setProperty('--angle', `${angle}deg`);
+
+      frameRef.current = requestAnimationFrame(tick);
+    };
+
+    tick();
+    return () => {
+      running = false;
+      cancelAnimationFrame(frameRef.current);
+    };
+  }, []);
+
+  // Sparkle canvas
   useEffect(() => {
     const canvas = sparkleCanvasRef.current;
-    if (!canvas) return;
+    const card = cardRef.current;
+    if (!canvas || !card) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    canvas.width = 400;
-    canvas.height = 560;
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = card.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const w = () => canvas.width / Math.min(window.devicePixelRatio || 1, 2);
+    const h = () => canvas.height / Math.min(window.devicePixelRatio || 1, 2);
 
     const sparkles: { x: number; y: number; size: number; speed: number; hue: number; life: number; maxLife: number }[] = [];
-
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 50; i++) {
       sparkles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
+        x: Math.random() * w(),
+        y: Math.random() * h(),
         size: Math.random() * 2.5 + 0.5,
         speed: Math.random() * 0.5 + 0.2,
         hue: Math.random() * 360,
@@ -75,23 +105,23 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
     }
 
     let running = true;
+    const rafId = { current: 0 };
     const draw = () => {
       if (!running) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const cw = w();
+      const ch = h();
+      ctx.clearRect(0, 0, cw, ch);
 
       for (const s of sparkles) {
         s.life += s.speed;
         if (s.life > s.maxLife) {
           s.life = 0;
-          s.x = Math.random() * canvas.width;
-          s.y = Math.random() * canvas.height;
+          s.x = Math.random() * cw;
+          s.y = Math.random() * ch;
           s.hue = Math.random() * 360;
         }
-
         const progress = s.life / s.maxLife;
-        const alpha = progress < 0.5
-          ? progress * 2
-          : (1 - progress) * 2;
+        const alpha = progress < 0.5 ? progress * 2 : (1 - progress) * 2;
 
         ctx.save();
         ctx.globalAlpha = alpha * 0.9;
@@ -99,76 +129,72 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
         ctx.shadowColor = `hsl(${s.hue}, 100%, 70%)`;
         ctx.shadowBlur = 6;
 
-        // Draw a 4-point star
-        const cx = s.x;
-        const cy = s.y;
-        const r = s.size;
+        const cx = s.x, cy = s.y, r = s.size;
         ctx.beginPath();
-        for (let i = 0; i < 4; i++) {
-          const a = (i * Math.PI) / 2;
-          const outerX = cx + Math.cos(a) * r * 2;
-          const outerY = cy + Math.sin(a) * r * 2;
-          const innerA = a + Math.PI / 4;
-          const innerX = cx + Math.cos(innerA) * r * 0.5;
-          const innerY = cy + Math.sin(innerA) * r * 0.5;
-          if (i === 0) ctx.moveTo(outerX, outerY);
-          else ctx.lineTo(outerX, outerY);
-          ctx.lineTo(innerX, innerY);
+        for (let j = 0; j < 4; j++) {
+          const a = (j * Math.PI) / 2;
+          const ox = cx + Math.cos(a) * r * 2;
+          const oy = cy + Math.sin(a) * r * 2;
+          const ia = a + Math.PI / 4;
+          const ix = cx + Math.cos(ia) * r * 0.5;
+          const iy = cy + Math.sin(ia) * r * 0.5;
+          if (j === 0) ctx.moveTo(ox, oy);
+          else ctx.lineTo(ox, oy);
+          ctx.lineTo(ix, iy);
         }
         ctx.closePath();
         ctx.fill();
         ctx.restore();
       }
-
-      rafRef.current = requestAnimationFrame(draw);
+      rafId.current = requestAnimationFrame(draw);
     };
 
     draw();
     return () => {
       running = false;
-      cancelAnimationFrame(rafRef.current);
+      cancelAnimationFrame(rafId.current);
+      window.removeEventListener('resize', resize);
     };
   }, []);
 
   return (
     <div
-      ref={cardRef}
-      className="holo-card"
-      style={vars as unknown as React.CSSProperties}
+      ref={zoneRef}
+      className="holo-card__zone"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="holo-card__inner">
-        {/* Border frame */}
-        <div className="holo-card__frame">
-          {/* Photo */}
-          <div className="holo-card__photo-wrap">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt={alt} className="holo-card__img" />
-          </div>
-
-          {/* Name plate */}
-          {name && (
-            <div className="holo-card__nameplate">
-              <span className="holo-card__name">{name}</span>
-              {title && <span className="holo-card__title">{title}</span>}
+      <div
+        ref={cardRef}
+        className="holo-card"
+      >
+        <div className="holo-card__inner">
+          <div className="holo-card__frame">
+            <div className="holo-card__photo-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt={alt} className="holo-card__img" loading="lazy" />
             </div>
-          )}
 
-          {/* Rarity stars */}
-          <div className="holo-card__rarity">
-            {[...Array(5)].map((_, i) => (
-              <span key={i} className="holo-card__star" style={{ animationDelay: `${i * 0.15}s` }}>&#9733;</span>
-            ))}
+            {name && (
+              <div className="holo-card__nameplate">
+                <span className="holo-card__name">{name}</span>
+                {title && <span className="holo-card__title">{title}</span>}
+              </div>
+            )}
+
+            <div className="holo-card__rarity">
+              {[...Array(5)].map((_, i) => (
+                <span key={i} className="holo-card__star" style={{ animationDelay: `${i * 0.15}s` }}>&#9733;</span>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Overlay effects */}
-        <div className="holo-card__holo" />
-        <div className="holo-card__shine" />
-        <div className="holo-card__glare" />
-        <canvas ref={sparkleCanvasRef} className="holo-card__sparkle-canvas" />
-        <div className="holo-card__edge-glow" />
+          <div className="holo-card__holo" />
+          <div className="holo-card__shine" />
+          <div className="holo-card__glare" />
+          <canvas ref={sparkleCanvasRef} className="holo-card__sparkle-canvas" />
+          <div className="holo-card__edge-glow" />
+        </div>
       </div>
     </div>
   );
