@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/lib/LanguageContext';
+import HoloCard from './HoloCard';
 
 const hardSkills = {
   gamedev: ['Unity', 'C#', 'Luna Playworks', 'ECS', 'Zenject', 'DOTween', 'Photon Fusion', 'Mirror', 'Git'],
@@ -36,14 +37,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <div className="aspect-square max-w-sm overflow-hidden border-2 border-dark-border bg-dark-bg flex items-center justify-center rounded-none shadow-pixel">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/res/photo.png"
-                alt="Sergey Korolev"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <HoloCard src="/res/photo.png" alt="Sergey Korolev" />
             <p className="font-body text-zinc-400 text-lg leading-relaxed">
               {t.about.bio}
             </p>
