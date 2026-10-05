@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
 import servicesData from '@/data/services.json';
+import { useRetroDisplay } from './RetroDisplay';
 
 export default function Header() {
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(scrollY, [0, 120], ['rgba(10,10,18,0.4)', 'rgba(10,10,18,0.97)']);
   const { locale, setLocale, t } = useLanguage();
+  const { enabled: crtEnabled, toggle: toggleCrt } = useRetroDisplay();
   const [menuOpen, setMenuOpen] = useState(false);
   const navLinks = [
     { href: '#playables', label: t.nav.playables },
@@ -30,6 +32,7 @@ export default function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <button type="button" onClick={toggleCrt} aria-pressed={crtEnabled} aria-label={locale === 'ru' ? 'Эффект старого ТВ' : 'Retro TV effect'} title={locale === 'ru' ? 'Включить или выключить эффект старого ТВ' : 'Toggle the retro TV effect'} className="crt-toggle">CRT</button>
           <div className="flex border-2 border-dark-border">
             {(['ru', 'en'] as const).map((language) => (
               <button key={language} type="button" onClick={() => setLocale(language)} aria-pressed={locale === language} className={`px-2 py-1.5 font-display text-[10px] transition-colors ${locale === language ? 'bg-neon-cyan text-dark-bg' : 'text-zinc-400 hover:text-zinc-200'}`}>{language.toUpperCase()}</button>

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useLanguage } from '@/lib/LanguageContext';
+import { RetroGlass } from './RetroDisplay';
 
 export type Playable = { slug: string; title: string; entry: string };
 
@@ -86,6 +87,7 @@ export default function PlayablePlayer({ playable, onClose }: { playable: Playab
           {!ready && <p role="status" className="absolute z-10 top-4 left-1/2 -translate-x-1/2 max-w-[90%] text-center text-sm px-4 py-2 bg-dark-card/90 border border-dark-border text-zinc-300 pointer-events-none">{slow ? t.playables.slow : t.playables.loading}</p>}
           <iframe ref={iframeRef} key={generation} src={playable.entry} title={playable.title} className="playable-player__frame" sandbox="allow-scripts allow-same-origin" allow="autoplay; fullscreen" allowFullScreen />
         </div>
+        <RetroGlass />
       </div>
     </dialog>,
     document.body

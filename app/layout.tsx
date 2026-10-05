@@ -48,7 +48,8 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`${pressStart.variable} ${manrope.variable} noise-overlay`}
+      className={`${pressStart.variable} ${manrope.variable}`}
+      data-crt="on"
       suppressHydrationWarning
     >
       <body className="min-h-screen bg-dark-bg text-zinc-200 font-body relative pixel-grid-bg starfield">
