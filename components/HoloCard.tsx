@@ -1,6 +1,7 @@
 'use client';
 
-import { useRef, useCallback, useEffect } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
+import { useInView, useReducedMotion } from 'framer-motion';
 
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
@@ -10,6 +11,17 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
   const zoneRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const sparkleCanvasRef = useRef<HTMLCanvasElement>(null);
+  const visible = useInView(cardRef);
+  const reducedMotion = useReducedMotion();
+  const [hovered, setHovered] = useState(false);
+  const [pageVisible, setPageVisible] = useState(true);
+
+  useEffect(() => {
+    const update = () => setPageVisible(!document.hidden);
+    update();
+    document.addEventListener('visibilitychange', update);
+    return () => document.removeEventListener('visibilitychange', update);
+  }, []);
 
   // Target values (set by mouse), current values (lerped each frame)
   const target = useRef({ x: 0.5, y: 0.5, active: false });
@@ -29,12 +41,13 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
 
   const handleMouseLeave = useCallback(() => {
     target.current.active = false;
+    setHovered(false);
   }, []);
 
   // Smooth animation loop — lerps current toward target
   useEffect(() => {
     const card = cardRef.current;
-    if (!card) return;
+    if (!card || !visible || !pageVisible || reducedMotion) return;
     let running = true;
 
     const tick = () => {
@@ -60,7 +73,8 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
       card.style.setProperty('--my', `${c.y * 100}%`);
       card.style.setProperty('--angle', `${angle}deg`);
 
-      frameRef.current = requestAnimationFrame(tick);
+      const unsettled = Math.abs(c.x - goalX) + Math.abs(c.y - goalY) + Math.abs(c.s - goalS) > 0.001;
+      if (hovered || unsettled) frameRef.current = requestAnimationFrame(tick);
     };
 
     tick();
@@ -68,13 +82,13 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
       running = false;
       cancelAnimationFrame(frameRef.current);
     };
-  }, []);
+  }, [hovered, visible, pageVisible, reducedMotion]);
 
   // Sparkle canvas
   useEffect(() => {
     const canvas = sparkleCanvasRef.current;
     const card = cardRef.current;
-    if (!canvas || !card) return;
+    if (!canvas || !card || !hovered || !visible || !pageVisible || reducedMotion) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -155,13 +169,14 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
       cancelAnimationFrame(rafId.current);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [hovered, visible, pageVisible, reducedMotion]);
 
   return (
     <div
       ref={zoneRef}
       className="holo-card__zone"
       onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
       <div

@@ -1,20 +1,19 @@
 # Sergey Korolev — Portfolio
 
 Портфолио AI Product Engineer: Playable Ads, отдельный шоурил, игры и кейсы сервисов.
-Тёмная тема, неоновые акценты, анимации (Framer Motion + GSAP).
+Тёмная тема, неоновые акценты, анимации Framer Motion и CRT-эффект.
 
 ## Стек
 
-- **Next.js 14** (App Router)
+- **Next.js 15.5.27** (App Router), **Node.js 22+**
 - **React 18**, **TypeScript**
 - **Tailwind CSS**
 - **Framer Motion** — микро-анимации, появление блоков, переходы
-- **GSAP** — параллакс, ScrollTrigger (опционально)
 
 ## Запуск
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -23,6 +22,10 @@ npm run dev
 ## Сборка и деплой
 
 ```bash
+npm ci
+npm run lint
+npm run typecheck
+npm audit --omit=dev
 npm run build
 npm start
 ```
@@ -31,13 +34,6 @@ npm start
 Скрипт `deploy.sh` по умолчанию использует `new-site` для деплоя через Docker Compose.
 
 ## Контент
-
-### Видео на главной (Hero)
-
-Положите в папку `public/`:
-
-- **showreel.mp4** — зацикленное видео 5–10 сек без звука для фона Hero.  
-  Если файла нет, фон останется градиентом.
 
 ### Изображения проектов
 
@@ -103,7 +99,7 @@ Git не меняет переводы строк в HTML-сборках, что
 
 ## Сервисы и AI-продукты
 
-Кейсы сервисов добавляются в `data/services.json`. Пока каталог пуст, отображается блок будущих кейсов.
+Кейсы сервисов добавляются в `data/services.json`. Пока каталог пуст, раздел и пункт меню скрыты.
 Формат одной записи:
 
 ```json

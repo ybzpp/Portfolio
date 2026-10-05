@@ -1,354 +1,105 @@
-# Деплой портфолио на VPS (Ubuntu 24.04)
+# Деплой портфолио на VPS
 
-Пошаговая инструкция: развёртывание Next.js на VPS, подключение домена и SSL (Let's Encrypt).
+Актуальный сайт находится в ветке `new-site`. Требуются Docker Compose либо Node.js 22+.
+Контакты работают через ссылки на email и Telegram; `.env` и токен бота не нужны.
 
----
+## Docker Compose
 
-## 1. Подготовка VPS
-
-- Создайте VPS на Ubuntu 24.04 (любой провайдер: DigitalOcean, Timeweb, Selectel, и т.д.).
-- Подключитесь по SSH:
-  ```bash
-  ssh root@ВАШ_IP
-  ```
-  или с пользователем:
-  ```bash
-  ssh пользователь@ВАШ_IP
-  ```
-
----
-
-## 2. Установка Node.js на сервере
+На сервере с установленными Git, Docker и Compose:
 
 ```bash
-# Обновление пакетов
-sudo apt update && sudo apt upgrade -y
-
-# Установка Node.js 20 LTS
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Проверка
-node -v   # v20.x.x
-npm -v
-```
-
----
-
-## 3. Установка Nginx и PM2
-
-```bash
-# Nginx — веб-сервер и reverse proxy
-sudo apt install -y nginx
-
-# PM2 — менеджер процессов для Node.js
-sudo npm install -g pm2
-```
-
----
-
-## 4. Загрузка проекта на сервер
-
-**Вариант A: Git — выкачать нужную ветку сразу в /var/www/portfolio**
-
-На сервере (подставьте свой репозиторий и ветку, например `main` или `new-site`):
-
-```bash
-sudo apt install -y git
-sudo mkdir -p /var/www && sudo chown $USER:$USER /var/www
-
-# Клонирование конкретной ветки сразу в нужную папку (папка будет создана)
-git clone -b ВЕТКА https://github.com/ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
+git clone -b new-site https://github.com/ybzpp/Portfolio.git /var/www/portfolio
 cd /var/www/portfolio
+docker compose up -d --build
+docker compose ps
+curl -f http://127.0.0.1:3000/
 ```
 
-Пример для ветки `new-site`:
-
-```bash
-git clone -b new-site https://github.com/ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
-cd /var/www/portfolio
-```
-
-Через SSH:
-
-```bash
-git clone -b new-site git@github.com:ВАШ_ЮЗЕР/Portfolio.git /var/www/portfolio
-cd /var/www/portfolio
-```
-
-Если папка уже есть и нужно просто подтянуть ветку:
+Обновление:
 
 ```bash
 cd /var/www/portfolio
-git fetch origin
-git checkout ВЕТКА
-git pull origin ВЕТКА
+git pull --ff-only origin new-site
+docker compose up -d --build
+docker compose ps
 ```
 
-**Вариант B: через SCP с локального ПК**
+`deploy.sh` выполняет загрузку ветки и запуск Compose. Dockerfile собирает Linux-версию
+с Node.js 22, фиксирует зависимости через `npm ci` и запускает standalone-сервер
+от непривилегированного пользователя. Healthcheck проверяет главную страницу.
+Порт 3000 доступен только на `127.0.0.1`; публичный доступ обеспечивает Nginx.
 
-На вашем компьютере (в папке с проектом):
+## Сборка без Docker
+
+На Linux-сервере с Node.js 22+:
 
 ```bash
-# Собрать проект локально и отправить
+cd /var/www/portfolio
+npm ci
+npm run lint
+npm run typecheck
+npm audit --omit=dev
 npm run build
-scp -r . next.config.* package*.json public app components data node_modules пользователь@ВАШ_IP:/var/www/portfolio/
 ```
 
-Лучше на сервере делать `git clone` и затем `npm install` и `npm run build`, чтобы не тащить `node_modules`.
-
----
-
-## 4a. Деплой одной командой (Docker)
-
-Чтобы не выполнять кучу команд вручную: на сервере достаточно установить Docker и один раз настроить `.env`, затем деплой — одной командой.
-
-**Установка Docker на Ubuntu 24.04 (один раз):**
+Для запуска standalone-сервера скопируйте сборку, статические файлы и `public`:
 
 ```bash
-sudo apt update && sudo apt install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt update && sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo usermod -aG docker $USER
-# выйти и зайти по SSH заново, чтобы группа docker применилась
+mkdir -p run/.next
+cp -a .next/standalone/. run/
+cp -a .next/static run/.next/
+cp -a public run/
+cd run
+PORT=3000 HOSTNAME=127.0.0.1 node server.js
 ```
 
-**Первый раз на сервере** (скрипта ещё нет — он в репо). Одной командой клонируем ветку в `/var/www/portfolio` и запускаем деплой:
+Для постоянной работы используйте PM2/systemd. `start-native.sh` запускает каталог
+`/var/www/portfolio/run` через системный Node.js 22+; пути можно переопределить
+переменными `NODE`, `APP`, `PIDFILE`, `LOG`.
+После обновления сборки работающий процесс нужно перезапустить.
 
-```bash
-git clone -b new-site https://github.com/ybzpp/Portfolio.git /var/www/portfolio && cd /var/www/portfolio && chmod +x deploy.sh && REPO=https://github.com/ybzpp/Portfolio.git BRANCH=new-site ./deploy.sh
-```
+Собирайте на целевой Linux-платформе. Не переносите `node_modules` и standalone-
+сборку с Windows: нативные зависимости привязаны к операционной системе.
 
-(Подставьте свой репозиторий и ветку вместо `ybzpp` и `new-site`.)  
-**Важно:** файл `deploy.sh` должен быть закоммичен и запушен в эту ветку (`git add deploy.sh && git commit -m "add deploy script" && git push`), иначе на сервере его не будет.
+## Nginx и HTTPS
 
-**Если склонировали репо, но `deploy.sh` нет** (ещё не в репозитории) — сделайте всё вручную из папки проекта:
-
-```bash
-cd /var/www/portfolio
-cp .env.example .env && nano .env   # заполнить TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID
-docker compose up -d --build
-```
-
-**Если репозиторий уже в `/var/www/portfolio`** — заходите в папку и запускаете скрипт:
-
-```bash
-cd /var/www/portfolio
-REPO=https://github.com/ybzpp/Portfolio.git BRANCH=new-site ./deploy.sh
-```
-
-Скрипт при наличии папки сделает `git pull`, создаст `.env` из примера при отсутствии и запустит `docker compose up -d --build`. Первый раз нужно создать `.env` и заполнить `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID`:
-
-```bash
-cd /var/www/portfolio
-cp .env.example .env && nano .env
-docker compose up -d --build
-```
-
-Дальше Nginx и SSL настраиваются как в шагах 7–9 (proxy_pass на `http://127.0.0.1:3000`).
-
-**Обновление при Docker-деплое:**
-
-```bash
-cd /var/www/portfolio
-git pull origin ВЕТКА
-docker compose up -d --build
-```
-
-Или снова через скрипт (он подтянет ветку и пересоберёт контейнер):
-
-```bash
-cd /var/www/portfolio && BRANCH=new-site ./deploy.sh
-```
-
----
-
-## 5. Переменные окружения (Telegram и прочее)
-
-Форма обратной связи отправляет уведомления в Telegram. Без настроенного бота заявки не будут доходить.
-
-На сервере создайте файл `.env` в корне проекта. **Отдельный скрипт запускать не нужно** — приложение само читает `.env` при старте. Но после создания или изменения `.env` **обязательно перезапустите приложение**, иначе процесс продолжит работать со старым (пустым) окружением.
-
-```bash
-cd /var/www/portfolio
-nano .env
-```
-
-Добавьте (подставьте свои значения):
-
-```env
-TELEGRAM_BOT_TOKEN=123456:ABCdef...
-TELEGRAM_CHAT_ID=123456789
-```
-
-**Как получить:**
-- **TELEGRAM_BOT_TOKEN** — в Telegram откройте [@BotFather](https://t.me/BotFather), создайте бота командой `/newbot`, скопируйте выданный токен.
-- **TELEGRAM_CHAT_ID** — напишите боту любое сообщение, затем откройте [@userinfobot](https://t.me/userinfobot), отправьте ему любое сообщение — он пришлёт ваш `Id` (это и есть chat_id для личных сообщений). Для группы: добавьте бота в группу, отправьте сообщение в группу, откройте в браузере `https://api.telegram.org/bot<ВАШ_ТОКЕН>/getUpdates` и найдите `"chat":{"id":-123456789}`.
-
-**После любого изменения `.env` перезапустите приложение:**
-- PM2: `pm2 restart portfolio`
-- Docker: `docker compose down && docker compose up -d`
-
-Если форма пишет «Не удалось отправить в Telegram» — под сообщением в скобках теперь показывается ответ Telegram. Частые причины:
-- **Unauthorized** — неверный токен (проверьте копирование, лишние пробелы в `.env`).
-- **Bad Request: chat not found** — неверный chat_id или бот ещё не получал сообщений от этого чата: для лички сначала напишите боту в Telegram команду `/start`; для группы добавьте бота в группу и отправьте в группе любое сообщение, затем возьмите chat_id через `getUpdates` (см. выше).
-- **Bad Request: chat_id is invalid** — в `TELEGRAM_CHAT_ID` должно быть только число (или отрицательное для группы), без кавычек и пробелов.
-
-Убедитесь также, что после правки `.env` перезапустили приложение. В разработке можно включить `DEV_SKIP_TELEGRAM=1` в `.env`, тогда форма будет «успешно» отправляться, а заявка выводиться в консоль сервера.
-
-**Админка:** в проекте нет встроенной веб-админки. Все заявки с формы приходят в Telegram — это и есть ваш канал уведомлений. При необходимости позже можно добавить отдельную страницу `/admin` с авторизацией.
-
----
-
-## 6. Сборка и запуск приложения на сервере
-
-```bash
-cd /var/www/portfolio
-
-# Зависимости
-npm install --production=false
-npm run build
-
-# Запуск через PM2 (порт 3000 по умолчанию)
-pm2 start npm --name "portfolio" -- start
-
-# Автозапуск при перезагрузке сервера
-pm2 startup
-pm2 save
-```
-
-Проверка: откройте в браузере `http://ВАШ_IP:3000`. Если видите сайт — переходите к Nginx.
-
----
-
-## 7. Настройка Nginx (reverse proxy)
-
-Создайте конфиг сайта (замените `yourdomain.com` на свой домен):
-
-```bash
-sudo nano /etc/nginx/sites-available/portfolio
-```
-
-Содержимое (пока без SSL):
+В существующем конфиге сайта используйте свой домен и upstream:
 
 ```nginx
 server {
     listen 80;
-    server_name yourdomain.com www.yourdomain.com;
+    server_name YOUR_DOMAIN;
+
+    gzip on;
+    gzip_vary on;
+    gzip_types text/css application/javascript application/json image/svg+xml;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
     }
 }
 ```
 
-Включите сайт и проверьте конфиг:
+Проверьте конфигурацию через `sudo nginx -t`, затем перезагрузите Nginx.
+Сохраните существующие настройки HTTPS; для нового домена установите сертификат
+через Certbot/Let's Encrypt. `metadataBase` в `app/layout.tsx` должен соответствовать
+публичному домену сайта.
 
-```bash
-sudo ln -s /etc/nginx/sites-available/portfolio /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
-```
+## Проверка после публикации
 
----
+- Главная страница, `/projects/signal` и `/projects/decryptor-17` отвечают 200.
+- Неизвестный `/projects/unknown-project` отвечает 404.
+- CRT переключается, RU/EN и мобильное меню работают.
+- Все шесть плейблов запускаются, закрываются и перезапускаются.
+- Шоурил воспроизводится; ссылки itch.io, Steam и YouTube открываются.
+- На главной игровые HTML не загружаются до открытия плеера.
 
-## 8. Подключение домена (DNS)
-
-В панели управления доменом (где купили домен) создайте A-записи:
-
-| Тип | Имя  | Значение   | TTL  |
-|-----|------|------------|------|
-| A   | @    | ВАШ_IP_VPS| 300  |
-| A   | www  | ВАШ_IP_VPS| 300  |
-
-Подождите 5–30 минут (иногда до 24 часов), затем проверьте:
-
-```bash
-ping yourdomain.com
-ping www.yourdomain.com
-```
-
-Когда пинг идёт на ваш IP — можно запрашивать SSL.
-
----
-
-## 9. SSL-сертификат (Let's Encrypt)
-
-Установите Certbot и получите сертификат:
-
-```bash
-sudo apt install -y certbot python3-certbot-nginx
-sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
-```
-
-Certbot спросит email (для уведомлений) и согласие с условиями. После этого он сам изменит конфиг Nginx и добавит редирект HTTP → HTTPS.
-
-Проверка автообновления сертификата:
-
-```bash
-sudo certbot renew --dry-run
-```
-
-Обычно обновление уже настроено по таймеру (раз в ~90 дней).
-
----
-
-## 10. Итоговая проверка
-
-- Откройте в браузере: `https://yourdomain.com` и `https://www.yourdomain.com`.
-- Убедитесь, что нет предупреждений о сертификате.
-
----
-
-## 11. Обновление сайта после изменений
-
-**Без Docker (PM2):**
-
-```bash
-cd /var/www/portfolio
-git pull
-npm install
-npm run build
-pm2 restart portfolio
-```
-
-**С Docker:**
-
-```bash
-cd /var/www/portfolio
-git pull origin ВЕТКА
-docker compose up -d --build
-```
-
----
-
-## Краткий чеклист
-
-**Вариант без Docker:**  
-1. VPS Ubuntu 24.04 + SSH.  
-2. Установить: Node.js 20, Nginx, PM2, Git.  
-3. Клонировать нужную ветку в `/var/www/portfolio`: `git clone -b ВЕТКА URL /var/www/portfolio`. Создать `.env`, затем `npm install`, `npm run build`, `pm2 start`.  
-4. Nginx: конфиг в `sites-available`, `proxy_pass` на `http://127.0.0.1:3000`.  
-5. DNS: A-записи @ и www на IP VPS.  
-6. Certbot: `certbot --nginx -d yourdomain.com -d www.yourdomain.com`.
-
-**Вариант с Docker (одной командой после настройки):**  
-1. Установить Docker и Docker Compose на VPS.  
-2. Один раз: `REPO=... BRANCH=new-site ./deploy.sh`, затем создать/заполнить `.env`, снова `docker compose up -d --build`.  
-3. Nginx и SSL — как выше (proxy_pass на 3000, certbot).
-
-Если что-то пойдёт не так — проверьте логи:
-
-- Приложение: `pm2 logs portfolio`
-- Nginx: `sudo tail -f /var/log/nginx/error.log`
+Ресурсы `/res/` кешируются на сутки, `/playables/` — на час; хешированные файлы
+Next.js используют длительный immutable-кеш. При публикации новая версия ресурса
+с тем же именем может появиться после истечения кеша; для немедленной замены
+обложек или игры используйте новое имя файла/путь в каталоге.

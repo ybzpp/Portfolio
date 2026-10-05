@@ -28,6 +28,7 @@ yarn-error.log*
 
 # TypeScript
 next-env.d.ts
+*.tsbuildinfo
 
 # Native deployment output
 /run/

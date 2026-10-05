@@ -138,6 +138,7 @@ export default function ProjectPage() {
                     src={youtubeEmbedUrl(project.videoUrl)}
                     title={project.title}
                     className="w-full h-full"
+                    loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />

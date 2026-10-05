@@ -4,7 +4,7 @@
 #   REPO=https://github.com/USER/Portfolio.git BRANCH=new-site ./deploy.sh
 #   или отредактируйте REPO и BRANCH ниже и запустите ./deploy.sh
 
-set -e
+set -eu
 REPO="${REPO:-https://github.com/ybzpp/Portfolio.git}"
 BRANCH="${BRANCH:-new-site}"
 TARGET="/var/www/portfolio"
@@ -16,16 +16,14 @@ if [ -d "$TARGET/.git" ]; then
   cd "$TARGET"
   git fetch origin "$BRANCH"
   git checkout "$BRANCH"
-  git pull origin "$BRANCH"
+  git pull --ff-only origin "$BRANCH"
 else
-  sudo rm -rf "$TARGET"
+  if [ -d "$TARGET" ] && [ -n "$(ls -A "$TARGET")" ]; then
+    echo "Каталог $TARGET не пуст и не является Git-репозиторием. Сначала сохраните его содержимое." >&2
+    exit 1
+  fi
   git clone -b "$BRANCH" "$REPO" "$TARGET"
   cd "$TARGET"
-fi
-
-if [ ! -f .env ]; then
-  echo "→ Создайте .env (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID). Пример: cp .env.example .env && nano .env"
-  cp -n .env.example .env 2>/dev/null || true
 fi
 
 echo "→ Запуск Docker Compose (build + up -d)"

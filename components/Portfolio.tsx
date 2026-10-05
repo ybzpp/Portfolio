@@ -45,7 +45,7 @@ export default function Portfolio() {
               transition={{ duration: 0.3 }}
               className="group"
             >
-              <Link href={`/projects/${project.slug}`}>
+              <Link href={`/projects/${project.slug}`} prefetch={false}>
                 <div className="relative overflow-hidden rounded-none bg-dark-card border-2 border-dark-border hover:border-neon-cyan transition-all duration-200 h-64 shadow-pixel group-hover:shadow-pixel-cyan">
                   {/* Cover image — fallback if no image or 404 */}
                   <div className="absolute inset-0 bg-dark-border/50 flex items-center justify-center">
