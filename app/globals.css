@@ -28,6 +28,12 @@ section[id], footer[id] {
   scroll-margin-top: 90px;
 }
 
+.award-badge {
+  max-width: calc(100% - 24px);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--neon-yellow) 50%, transparent);
+}
+
 .playable-card {
   --playable-accent: var(--neon-cyan);
   border: 2px solid var(--border);

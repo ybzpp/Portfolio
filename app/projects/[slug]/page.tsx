@@ -17,6 +17,8 @@ type Project = {
   cover: string;
   description: string;
   descriptionRu?: string;
+  award?: string;
+  awardRu?: string;
   problem?: string;
   problemRu?: string;
   solution?: string;
@@ -85,6 +87,12 @@ export default function ProjectPage() {
             <h1 className="font-display text-xl md:text-2xl font-bold text-zinc-100 mb-6 [letter-spacing:0.03em]">
               {project.title}
             </h1>
+            {project.award && (
+              <p className="award-badge inline-flex items-center gap-2 mb-6 px-3 py-2 font-display text-[10px] leading-relaxed text-neon-yellow">
+                <span aria-hidden="true">🏆</span>
+                {locale === 'ru' && project.awardRu ? project.awardRu : project.award}
+              </p>
+            )}
             <p className="font-body text-zinc-400 text-lg mb-10">{locale === 'ru' && project.descriptionRu ? project.descriptionRu : project.description}</p>
 
             {(project.cover && !coverError) ? (

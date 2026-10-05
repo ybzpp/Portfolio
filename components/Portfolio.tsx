@@ -9,7 +9,7 @@ import { useLanguage } from '@/lib/LanguageContext';
 const games = projectsData.filter((project) => project.category === 'gamedev');
 
 export default function Portfolio() {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   return (
@@ -66,9 +66,9 @@ export default function Portfolio() {
                   </div>
                   {/* Award badge */}
                   {'award' in project && project.award && (
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2 py-1 bg-dark-bg/80 border border-neon-yellow/50 backdrop-blur-sm">
+                    <div className="award-badge absolute top-3 left-3 z-10 flex items-center gap-1.5 px-2 py-1 backdrop-blur-sm">
                       <span className="text-base leading-none" aria-hidden="true">🏆</span>
-                      <span className="font-display text-[9px] text-neon-yellow [letter-spacing:0.05em]">{project.award}</span>
+                      <span className="font-display text-[9px] text-neon-yellow [letter-spacing:0.05em]">{locale === 'ru' && 'awardRu' in project && project.awardRu ? project.awardRu : project.award}</span>
                     </div>
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
