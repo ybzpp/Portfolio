@@ -33,7 +33,7 @@ export const translations = {
     },
     contact: {
       title: 'Контакты',
-      desc: 'Есть проект или вопрос? Напишите — отвечу в течение дня.',
+      desc: 'Есть проект или вопрос? Напишите на почту или в Telegram — отвечу в течение дня.',
       formTitle: 'Форма обратной связи',
       namePlaceholder: 'Имя',
       contactPlaceholder: 'Email или Telegram',
@@ -89,7 +89,7 @@ export const translations = {
     },
     contact: {
       title: 'Contact',
-      desc: 'Have a project or question? Write to me — I\'ll reply within a day.',
+      desc: 'Have a project or question? Email or Telegram — I\'ll reply within a day.',
       formTitle: 'Feedback form',
       namePlaceholder: 'Name',
       contactPlaceholder: 'Email or Telegram',

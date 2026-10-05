@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
 
 const socials = [
@@ -14,46 +13,10 @@ const socials = [
 
 export default function Footer() {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({ name: '', contact: '', message: '' });
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setLoading(true);
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) {
-        const code = data?.error;
-        const detail = data?.detail && typeof data.detail === 'string' ? data.detail : null;
-        const msg =
-          code === 'telegram_not_configured' ? t.contact.errorTelegramNotConfigured
-          : code === 'telegram_send_failed' ? t.contact.errorTelegramSendFailed
-          : code === 'validation_error' ? t.contact.errorValidation
-          : code === 'server_error' ? t.contact.errorServer
-          : (data?.error && typeof data.error === 'string' ? data.error : null) || t.contact.error;
-        setError(detail ? `${msg} (${detail})` : msg);
-        return;
-      }
-      setSent(true);
-      setFormData({ name: '', contact: '', message: '' });
-    } catch {
-      setError(t.contact.error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <footer id="contact" className="relative py-24 px-6 md:px-12 border-t-2 border-dark-border">
-      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-16">
+      <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -86,65 +49,6 @@ export default function Footer() {
             ))}
           </div>
         </motion.div>
-
-        <motion.form
-          onSubmit={handleSubmit}
-          className="space-y-4"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-        >
-          <h3 className="font-display text-sm text-zinc-300 mb-4 [letter-spacing:0.05em]">&gt; {t.contact.formTitle}</h3>
-          <div aria-live="polite">
-            {sent ? (
-              <p role="status" className="font-body text-neon-green text-lg">{t.contact.success}</p>
-            ) : error ? (
-              <p role="alert" className="font-body text-red-400 text-lg mb-2">{error}</p>
-            ) : null}
-          </div>
-          {!sent && (
-            <>
-              <label htmlFor="contact-name" className="sr-only">{t.contact.namePlaceholder}</label>
-              <input
-                id="contact-name"
-                type="text"
-                placeholder={t.contact.namePlaceholder}
-                value={formData.name}
-                onChange={(e) => setFormData((d) => ({ ...d, name: e.target.value }))}
-                className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors"
-                required
-              />
-              <label htmlFor="contact-email" className="sr-only">{t.contact.contactPlaceholder}</label>
-              <input
-                id="contact-email"
-                type="email"
-                placeholder={t.contact.contactPlaceholder}
-                value={formData.contact}
-                onChange={(e) => setFormData((d) => ({ ...d, contact: e.target.value }))}
-                className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors"
-                required
-              />
-              <label htmlFor="contact-message" className="sr-only">{t.contact.messagePlaceholder}</label>
-              <textarea
-                id="contact-message"
-                placeholder={t.contact.messagePlaceholder}
-                value={formData.message}
-                onChange={(e) => setFormData((d) => ({ ...d, message: e.target.value }))}
-                rows={4}
-                className="w-full px-4 py-3 rounded-none bg-dark-card border-2 border-dark-border text-zinc-200 placeholder-zinc-500 focus:border-neon-cyan focus:outline-none font-body text-lg transition-colors resize-none"
-                required
-              />
-              <button
-                type="submit"
-                disabled={loading}
-                className="px-6 py-3 rounded-none font-display text-xs border-2 border-neon-pink bg-neon-pink text-white hover:bg-neon-pink/90 transition-all hover:shadow-pixel-pink disabled:opacity-60"
-              >
-                {loading ? t.contact.sending : t.contact.submit}
-              </button>
-            </>
-          )}
-        </motion.form>
       </div>
 
       <div className="max-w-5xl mx-auto mt-16 pt-8 border-t-2 border-dark-border text-center font-body text-zinc-500 text-lg">
