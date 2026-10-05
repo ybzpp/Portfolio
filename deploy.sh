@@ -1,12 +1,12 @@
 #!/bin/bash
 # Однокомандный деплой: клонирует нужную ветку в /var/www/portfolio и поднимает Docker.
 # Использование:
-#   REPO=https://github.com/USER/Portfolio.git BRANCH=main ./deploy.sh
+#   REPO=https://github.com/USER/Portfolio.git BRANCH=new-site ./deploy.sh
 #   или отредактируйте REPO и BRANCH ниже и запустите ./deploy.sh
 
 set -e
 REPO="${REPO:-https://github.com/ybzpp/Portfolio.git}"
-BRANCH="${BRANCH:-main}"
+BRANCH="${BRANCH:-new-site}"
 TARGET="/var/www/portfolio"
 
 echo "→ Клонирование $REPO ветка $BRANCH в $TARGET"

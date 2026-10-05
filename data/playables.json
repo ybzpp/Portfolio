@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "dzo-upgrade",
+    "title": "DZO Upgrade",
+    "sourceFile": "DZO Upgrade.html",
+    "entry": "/playables/dzo-upgrade/index.html",
+    "cover": "/playables/dzo-upgrade/preview.jpg",
+    "accent": "pink"
+  },
+  {
+    "slug": "gs-freeze",
+    "title": "GS Freeze",
+    "sourceFile": "GS Freeze.html",
+    "entry": "/playables/gs-freeze/index.html",
+    "cover": "/playables/gs-freeze/preview.jpg",
+    "accent": "cyan"
+  },
+  {
+    "slug": "jelly-run-2048",
+    "title": "Jelly Run 2048",
+    "sourceFile": "Jelly Run 2048.html",
+    "entry": "/playables/jelly-run-2048/index.html",
+    "cover": "/playables/jelly-run-2048/preview.jpg",
+    "accent": "purple"
+  },
+  {
+    "slug": "kick-the-buddy",
+    "title": "Kick the Buddy",
+    "sourceFile": "Kick the Buddy.html",
+    "entry": "/playables/kick-the-buddy/index.html",
+    "cover": "/playables/kick-the-buddy/preview.jpg",
+    "accent": "yellow"
+  },
+  {
+    "slug": "melon-sandbox",
+    "title": "Melon Sandbox",
+    "sourceFile": "Melon Sandbox.html",
+    "entry": "/playables/melon-sandbox/index.html",
+    "cover": "/playables/melon-sandbox/preview.jpg",
+    "accent": "green"
+  },
+  {
+    "slug": "shadow-fight-3",
+    "title": "Shadow Fight 3",
+    "sourceFile": "Shadow Fight 3.html",
+    "entry": "/playables/shadow-fight-3/index.html",
+    "cover": "/playables/shadow-fight-3/preview.jpg",
+    "accent": "pink"
+  }
+]

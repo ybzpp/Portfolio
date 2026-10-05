@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
+import projects from '@/data/projects.json';
+import playables from '@/data/playables.json';
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -19,7 +21,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[85vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-12 pb-24 md:pb-28"
+      className="relative min-h-[95svh] flex flex-col items-center justify-center overflow-hidden px-6 pt-28 pb-28 md:pb-32"
     >
       {/* Background */}
       <motion.div style={{ y: bgY }} className="absolute inset-0 pointer-events-none">
@@ -46,6 +48,14 @@ export default function Hero() {
           <span className="text-neon-pink block mt-2">{t.hero.titleHighlight}</span>
         </motion.h1>
         <motion.p
+          className="font-display text-[10px] sm:text-xs text-neon-purple mb-6 leading-relaxed"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          {t.hero.focus}
+        </motion.p>
+        <motion.p
           className="font-body text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -60,7 +70,7 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Link
-            href="#portfolio"
+            href="#playables"
             className="px-6 py-3 font-display text-xs border-2 border-neon-cyan bg-neon-cyan text-dark-bg rounded-none hover:bg-neon-cyan/90 transition-all duration-200 hover:shadow-pixel-cyan"
           >
             {t.hero.ctaWorks}
@@ -71,6 +81,16 @@ export default function Hero() {
           >
             {t.hero.ctaContact}
           </Link>
+        </motion.div>
+        <motion.div
+          className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-10 font-body text-sm text-zinc-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <a href="#playables" className="hover:text-neon-cyan"><span className="text-zinc-200 font-semibold">{playables.length}</span> {t.hero.playables}</a>
+          <a href="#portfolio" className="hover:text-neon-cyan"><span className="text-zinc-200 font-semibold">{projects.filter((project) => project.category === 'gamedev').length}</span> {t.hero.games}</a>
+          <a href="#showreel" className="hover:text-neon-pink"><span className="text-zinc-200 font-semibold">1</span> {t.hero.showreel}</a>
         </motion.div>
       </div>
 

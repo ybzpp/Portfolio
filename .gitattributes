@@ -1,0 +1,2 @@
+# Preserve bytes in exported games with embedded compressed assets.
+public/playables/*/index.html -text -diff

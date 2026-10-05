@@ -19,20 +19,20 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: 'Sergey Korolev — Unity Developer · Playable Ads',
+  title: 'Sergey Korolev — AI Product Engineer · Playable Ads',
   description:
-    'Unity Developer with 5 years in game dev. Playable Ads, hyper-casual, multiplayer. Unity, C#, fast development, quality.',
+    'AI Product Engineer building AI products, web services, Unity games and Playable Ads. Play interactive demos and explore released games.',
   metadataBase: new URL('https://sergeykorolev.dev'),
   openGraph: {
-    title: 'Sergey Korolev — Unity Developer · Playable Ads',
-    description: 'Portfolio: games, prototypes, Playable Ads. Unity, C#, Photon Fusion.',
+    title: 'Sergey Korolev — AI Product Engineer · Playable Ads',
+    description: 'AI products, web services, interactive Playable Ads and Unity games.',
     type: 'website',
     locale: 'ru_RU',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Sergey Korolev — Unity Developer',
-    description: 'Portfolio: games, prototypes, Playable Ads.',
+    title: 'Sergey Korolev — AI Product Engineer',
+    description: 'AI products, web services, Unity games and playable demos.',
   },
   robots: {
     index: true,

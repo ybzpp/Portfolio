@@ -5,6 +5,7 @@ import { useLanguage } from '@/lib/LanguageContext';
 import HoloCard from './HoloCard';
 
 const hardSkills = {
+  products: ['AI Products', 'Web Services', 'React', 'Next.js', 'TypeScript', 'Prototyping'],
   gamedev: ['Unity', 'C#', 'Luna Playworks', 'ECS', 'Zenject', 'DOTween', 'Photon Fusion', 'Mirror', 'Git', 'UniTask', 'Addressables', 'Shader Graph'],
   tools: ['After Effects', 'Photoshop', 'Cinema 4D', 'Figma', 'Premiere Pro'],
 };
@@ -63,7 +64,7 @@ export default function About() {
               src="/res/photo.webp"
               alt="Sergey Korolev"
               name="SERGEY KOROLEV"
-              title="GAME DEVELOPER"
+              title="AI PRODUCT ENGINEER"
             />
             <p className="font-body text-zinc-400 text-base leading-relaxed max-w-sm text-center">
               {t.about.bio}
@@ -85,6 +86,14 @@ export default function About() {
                 {t.about.hardSkills}
               </h3>
               <div className="space-y-4">
+                <div>
+                  <p className="font-display text-zinc-500 text-[10px] mb-2 [letter-spacing:0.08em]">AI / PRODUCT ENGINEERING</p>
+                  <div className="flex flex-wrap gap-2">
+                    {hardSkills.products.map((skill) => (
+                      <span key={skill} className="px-3 py-1.5 font-body text-sm text-neon-green/90 border border-neon-green/20 bg-neon-green/[0.06]">{skill}</span>
+                    ))}
+                  </div>
+                </div>
                 <div>
                   <p className="font-display text-zinc-500 text-[10px] mb-2 [letter-spacing:0.08em]">GAMEDEV</p>
                   <div className="flex flex-wrap gap-2">
