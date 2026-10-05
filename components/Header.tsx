@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
+import servicesData from '@/data/services.json';
 
 export default function Header() {
   const { scrollY } = useScroll();
@@ -14,7 +15,7 @@ export default function Header() {
     { href: '#playables', label: t.nav.playables },
     { href: '#showreel', label: t.nav.showreel },
     { href: '#portfolio', label: t.nav.works },
-    { href: '#services', label: t.nav.services },
+    ...(servicesData.length ? [{ href: '#services', label: t.nav.services }] : []),
     { href: '#about', label: t.nav.about },
     { href: '#contact', label: t.nav.contact },
   ];

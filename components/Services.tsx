@@ -9,6 +9,8 @@ const services = servicesData as ServiceProject[];
 
 export default function Services() {
   const { locale, t } = useLanguage();
+  if (!services.length) return null;
+
   return (
     <section id="services" className="relative py-24 px-6 md:px-12">
       <div className="max-w-6xl mx-auto">
