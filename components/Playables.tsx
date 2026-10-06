@@ -29,7 +29,7 @@ export default function Playables() {
                   <img src={playable.cover} alt="" loading="lazy" decoding="async" width="960" height="540" className="playable-card__image" />
                 ) : <span className="font-display text-5xl text-neon-cyan/70">GS</span>}
                 {playable.slug === 'gs-freeze' && (
-                  <span id="grim-soul-impressions" className="absolute z-10 bottom-4 left-4 flex flex-col gap-1 border border-neon-cyan/60 bg-dark-bg/95 px-3 py-2">
+                  <span id="grim-soul-impressions" className="absolute z-10 bottom-4 left-4 flex flex-col gap-1 border border-neon-cyan bg-dark-bg px-3 py-2">
                     <strong className="font-display text-xs leading-relaxed text-neon-cyan">{t.playables.metric}</strong>
                     <span className="font-body text-[11px] text-zinc-200 whitespace-nowrap">{t.playables.metricLabel}</span>
                   </span>
