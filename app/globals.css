@@ -219,8 +219,14 @@ body {
   aspect-ratio: 5 / 7;
   cursor: pointer;
   transform-style: preserve-3d;
-  will-change: transform;
   margin: 0 auto;
+}
+
+.holo-card__zone[data-animated="true"] .holo-card { will-change: transform; }
+.holo-card__zone[data-animated="false"] .holo-card__inner::before,
+.holo-card__zone[data-animated="false"] .holo-card__star,
+.holo-card__zone[data-animated="false"] .holo-card__edge-glow {
+  animation-play-state: paused;
 }
 
 .holo-card__inner {
@@ -586,6 +592,15 @@ html[data-crt="on"] .playable-player__content { filter: url(#portfolio-crt); }
 /* Floating particles — pure CSS, no JS animation lib */
 .floating-particle {
   animation: particle-float 8s ease-in-out infinite;
+}
+
+/* The modal covers the page; keep its decorative background still while playing. */
+html:has(.playable-player[open]) .floating-particle,
+html:has(.playable-player[open]) .starfield::before,
+html:has(.playable-player[open]) .holo-card__inner::before,
+html:has(.playable-player[open]) .holo-card__star,
+html:has(.playable-player[open]) .holo-card__edge-glow {
+  animation-play-state: paused;
 }
 @keyframes particle-float {
   0%, 100% { transform: translateY(0); opacity: 0.5; }

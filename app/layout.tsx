@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: 'Sergey Korolev — AI Product Engineer · Playable Ads',
   description:
     'AI Product Engineer building AI products, web services, Unity games and Playable Ads. Play interactive demos and explore released games.',
-  metadataBase: new URL('https://sergeykorolev.dev'),
+  metadataBase: new URL('https://sergey-korolev-developer.ru'),
   openGraph: {
     title: 'Sergey Korolev — AI Product Engineer · Playable Ads',
     description: 'AI products, web services, interactive Playable Ads and Unity games.',

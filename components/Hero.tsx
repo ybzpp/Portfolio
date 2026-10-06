@@ -30,7 +30,7 @@ export default function Hero() {
       <div className="relative z-10 text-center max-w-4xl mx-auto">
         <motion.p
           className="font-display text-neon-cyan text-xs md:text-sm mb-8 [letter-spacing:0.2em]"
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
@@ -38,7 +38,7 @@ export default function Hero() {
         </motion.p>
         <motion.h1
           className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-zinc-100 mb-6 leading-tight"
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
@@ -47,7 +47,7 @@ export default function Hero() {
         </motion.h1>
         <motion.p
           className="font-display text-[10px] sm:text-xs text-neon-purple mb-6 leading-relaxed"
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
@@ -55,7 +55,7 @@ export default function Hero() {
         </motion.p>
         <motion.p
           className="font-body text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
@@ -63,7 +63,7 @@ export default function Hero() {
         </motion.p>
         <motion.div
           className="flex flex-wrap gap-4 justify-center"
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
@@ -85,7 +85,7 @@ export default function Hero() {
       <motion.div
         className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-10"
         style={{ bottom: 'max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))' }}
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >

@@ -7,11 +7,12 @@ import { useLanguage } from '@/lib/LanguageContext';
 import { youtubeEmbedUrl } from '@/lib/youtube';
 
 const reel = projects.find((project) => project.slug === 'showreel');
+const reelEmbed = reel?.videoUrl ? youtubeEmbedUrl(reel.videoUrl) : '';
 
 export default function Showreel() {
   const { t } = useLanguage();
   const [playing, setPlaying] = useState(false);
-  if (!reel?.videoUrl) return null;
+  if (!reel?.videoUrl || !reelEmbed) return null;
 
   return (
     <section id="showreel" className="relative py-24 px-6 md:px-12 overflow-hidden">
@@ -21,7 +22,7 @@ export default function Showreel() {
         <h2 className="font-display text-2xl md:text-4xl text-zinc-100 mb-5">[{t.showreel.title}]</h2>
         <p className="font-body text-zinc-400 text-lg mb-10">{t.showreel.desc}</p>
         <div className="relative aspect-video bg-black border-2 border-neon-pink/40 shadow-pixel-pink overflow-hidden">
-          {playing ? <iframe src={`${youtubeEmbedUrl(reel.videoUrl)}?autoplay=1&rel=0`} title={t.showreel.title} className="w-full h-full" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> : (
+          {playing ? <iframe src={`${reelEmbed}?autoplay=1&rel=0`} title={t.showreel.title} className="w-full h-full" referrerPolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> : (
             <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0 flex flex-col items-center justify-center w-full h-full" aria-label={t.showreel.play}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={reel.cover} alt="" className="absolute inset-0 w-full h-full object-cover opacity-55 group-hover:opacity-70 group-hover:scale-105 transition-all duration-500" loading="lazy" />

@@ -15,14 +15,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem('portfolio-locale') as Locale | null;
-    if (stored === 'ru' || stored === 'en') setLocaleState(stored);
+    try {
+      const stored = localStorage.getItem('portfolio-locale');
+      if (stored === 'ru' || stored === 'en') setLocaleState(stored);
+    } catch {}
   }, []);
 
   useEffect(() => {
     if (!mounted || typeof document === 'undefined') return;
     document.documentElement.lang = locale;
-    localStorage.setItem('portfolio-locale', locale);
+    try { localStorage.setItem('portfolio-locale', locale); } catch {}
   }, [locale, mounted]);
 
   const setLocale = (l: Locale) => setLocaleState(l);

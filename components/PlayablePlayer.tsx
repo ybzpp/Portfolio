@@ -7,6 +7,9 @@ import { RetroGlass } from './RetroDisplay';
 
 export type Playable = { slug: string; title: string; entry: string };
 
+// A new cache key makes existing visitors receive the CSP/telemetry changes.
+const playableRevision = '20261006-isolated';
+
 export default function PlayablePlayer({ playable, onClose }: { playable: Playable; onClose: () => void }) {
   const { t } = useLanguage();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -45,7 +48,9 @@ export default function PlayablePlayer({ playable, onClose }: { playable: Playab
     setSlow(false);
     const timer = window.setTimeout(() => setSlow(true), 20000);
     const onMessage = (event: MessageEvent) => {
-      if (event.source !== iframeRef.current?.contentWindow) return;
+      // Sandboxed exports have an opaque origin. The WindowProxy check binds
+      // messages to this player, including after a restart.
+      if (event.source !== iframeRef.current?.contentWindow || event.origin !== 'null') return;
       if (event.data?.type === 'portfolio:playable-ready') {
         setReady(true);
         window.clearTimeout(timer);
@@ -85,7 +90,7 @@ export default function PlayablePlayer({ playable, onClose }: { playable: Playab
         </header>
         <div className="playable-player__stage">
           {!ready && <p role="status" className="absolute z-10 top-4 left-1/2 -translate-x-1/2 max-w-[90%] text-center text-sm px-4 py-2 bg-dark-card/90 border border-dark-border text-zinc-300 pointer-events-none">{slow ? t.playables.slow : t.playables.loading}</p>}
-          <iframe ref={iframeRef} key={generation} src={playable.entry} title={playable.title} className="playable-player__frame" sandbox="allow-scripts allow-same-origin" allow="autoplay; fullscreen" allowFullScreen />
+          <iframe ref={iframeRef} key={generation} src={`${playable.entry}?v=${playableRevision}`} title={playable.title} className="playable-player__frame" sandbox="allow-scripts" allow="autoplay *; fullscreen *" referrerPolicy="no-referrer" allowFullScreen />
         </div>
         <RetroGlass />
       </div>

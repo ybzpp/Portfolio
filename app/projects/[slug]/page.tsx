@@ -35,6 +35,7 @@ export default function ProjectPage() {
   const [coverError, setCoverError] = useState(false);
   const slug = params.slug as string;
   const project = (projectsData as Project[]).find((p) => p.slug === slug);
+  const videoSrc = project?.videoUrl ? youtubeEmbedUrl(project.videoUrl) : '';
 
   if (!project) {
     return (
@@ -69,7 +70,7 @@ export default function ProjectPage() {
       <main className="pt-24 pb-16 px-6 md:px-12">
         <div className="max-w-4xl mx-auto">
           <motion.article
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
@@ -128,18 +129,19 @@ export default function ProjectPage() {
               </div>
             )}
 
-            {project.videoUrl && (
+            {videoSrc && (
               <div className="mb-10">
                 <h3 className="font-display text-zinc-300 text-xs [letter-spacing:0.1em] mb-4">
                   &gt; {t.project.video}
                 </h3>
                 <div className="aspect-video rounded-none overflow-hidden border-2 border-dark-border bg-black shadow-pixel">
                   <iframe
-                    src={youtubeEmbedUrl(project.videoUrl)}
+                    src={videoSrc}
                     title={project.title}
                     className="w-full h-full"
                     loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                     allowFullScreen
                   />
                 </div>

@@ -1,0 +1,452 @@
+{
+  "title": "Аудит оптимизации и безопасности портфолио",
+  "checkedAt": "2026-10-06T09:38:10.074Z",
+  "timezone": "Europe/Moscow",
+  "repository": "https://github.com/ybzpp/Portfolio",
+  "branch": "new-site",
+  "sourceBaseCommit": "da67dcfe097361462d20714e904ca015115a79d7",
+  "scope": [
+    "Текущий исходный код",
+    "История всех локальных Git refs",
+    "Production-сборка Linux/Docker",
+    "HTTP и браузерные проверки",
+    "Публичные HTTPS/TLS и заголовки"
+  ],
+  "conclusion": "Исправления проверены в локальной production-сборке. Публичный VPS в рамках аудита не обновлялся. Остались замечания в сборочных зависимостях; публичный доступ к двум играм itch.io подтверждён владельцем.",
+  "fixed": [
+    {
+      "id": "playable-origin-isolation",
+      "before": "allow-scripts вместе с allow-same-origin оставляли экспортам origin портфолио и доступ к его DOM/storage.",
+      "after": "iframe sandbox allow-scripts и отдельный CSP sandbox создают opaque origin. postMessage проверяет WindowProxy и origin null. Внешние сетевые запросы, формы и popups запрещены.",
+      "files": [
+        "components/PlayablePlayer.tsx",
+        "next.config.js"
+      ],
+      "verification": {
+        "type": "audit:result",
+        "parentDocumentBlocked": true,
+        "storageBlocked": true,
+        "connectCspViolation": true,
+        "origin": "null"
+      }
+    },
+    {
+      "id": "security-response-headers",
+      "after": "Добавлены CSP, HSTS max-age=31536000, nosniff, X-Frame-Options, Referrer-Policy и Permissions-Policy. Игровые HTML получают собственную более ограничительную CSP.",
+      "limitation": "На публичном домене заголовки отсутствовали на момент проверки. Нужен деплой production-сборки. HSTS без includeSubDomains/preload. unsafe-inline сохранён для статической гидратации, unsafe-eval разрешён только игровым экспортам.",
+      "files": [
+        "next.config.js",
+        "DEPLOY.md"
+      ]
+    },
+    {
+      "id": "luna-export-telemetry",
+      "after": "Два адреса коллектора статистики/ошибок в DZO заменены на null, чтобы SDK не инициировал отправку. Остальные байты HTML и встроенные assets сохранены. Для игровых URL добавлена новая версия кеша.",
+      "files": [
+        "public/playables/dzo-upgrade/index.html",
+        "components/PlayablePlayer.tsx"
+      ],
+      "byteChangeEvidence": {
+        "file": "public/playables/dzo-upgrade/index.html",
+        "changed": "Only the two ASCII telemetry URL literals in pi.apply were replaced with null; all remaining bytes preserved",
+        "beforeBytes": 4873178,
+        "afterBytes": 4873075,
+        "sha256Before": "20571e8e1d5d0e42579c09195f555741e2f72aa3cd62749ea562285d146f82d0",
+        "sha256After": "0b747dbc61869e5156f11c16928781aaecc33ac23d57df3fab1c89fbf385b8d7"
+      }
+    },
+    {
+      "id": "youtube-url-validation",
+      "after": "iframe получает только HTTPS YouTube embed с валидным 11-символьным ID. Произвольные URL, чужие домены, credentials и нестандартные порты отклоняются.",
+      "verification": {
+        "existingVideosAccepted": 18,
+        "unsafeCasesRejected": 10,
+        "showreelPlayback": true
+      },
+      "files": [
+        "lib/youtube.ts",
+        "components/Showreel.tsx",
+        "app/projects/[slug]/page.tsx"
+      ]
+    },
+    {
+      "id": "preview-images",
+      "after": "Шесть JPEG-превью заменены в каталоге на WebP 960x540. Добавлены размеры, lazy loading и async decoding. Оригиналы сохранены.",
+      "originalBytes": 498896,
+      "optimizedBytes": 197810,
+      "reductionPercent": 60.35,
+      "previews": [
+        {
+          "slug": "dzo-upgrade",
+          "originalBytes": 69426,
+          "optimizedBytes": 25648,
+          "width": 960,
+          "height": 540
+        },
+        {
+          "slug": "gs-freeze",
+          "originalBytes": 140082,
+          "optimizedBytes": 60830,
+          "width": 960,
+          "height": 540
+        },
+        {
+          "slug": "jelly-run-2048",
+          "originalBytes": 32631,
+          "optimizedBytes": 12830,
+          "width": 960,
+          "height": 540
+        },
+        {
+          "slug": "kick-the-buddy",
+          "originalBytes": 77548,
+          "optimizedBytes": 28438,
+          "width": 960,
+          "height": 540
+        },
+        {
+          "slug": "melon-sandbox",
+          "originalBytes": 54081,
+          "optimizedBytes": 15544,
+          "width": 960,
+          "height": 540
+        },
+        {
+          "slug": "shadow-fight-3",
+          "originalBytes": 125128,
+          "optimizedBytes": 54520,
+          "width": 960,
+          "height": 540
+        }
+      ]
+    },
+    {
+      "id": "visible-ssr-content",
+      "after": "Hero и статья проекта видимы в серверном HTML до гидратации JS: убран стартовый opacity 0.",
+      "files": [
+        "components/Hero.tsx",
+        "app/projects/[slug]/page.tsx"
+      ]
+    },
+    {
+      "id": "decorative-animation-cost",
+      "after": "CSS-анимации HoloCard останавливаются вне viewport, в скрытой вкладке и при reduced motion. will-change активен только у видимой карточки. Фоновый декор приостановлен при открытом игровом модальном окне.",
+      "limitation": "Полнoэкранный CRT сохранён по запросу владельца. GPU/FPS на реальных слабых устройствах не измерялись.",
+      "files": [
+        "components/HoloCard.tsx",
+        "app/globals.css"
+      ]
+    },
+    {
+      "id": "unnecessary-runtime-package-managers",
+      "before": "Trivy обнаружил 21 CVE-совпадение в зависимостях npm, поставляемого базовым Node-образом. Они не входили в npm audit зависимостей проекта.",
+      "after": "npm/npx/Corepack/Yarn удалены из финального runtime-слоя. Builder сохраняет npm для npm ci/build. Production работает через node server.js.",
+      "files": [
+        "Dockerfile"
+      ],
+      "verification": "Повторная сборка, запуск, HTTP/браузерные проверки и Trivy финального образа."
+    },
+    {
+      "id": "deployment-and-repository-hygiene",
+      "after": "Docker Compose сбрасывает capabilities и запрещает повышение привилегий. Процесс работает как UID1001 и публикует порт только на loopback. .env.* игнорируются; tsconfig.tsbuildinfo убран из Git. metadataBase исправлен на действующий домен. localStorage обёрнут в обработку отказа доступа.",
+      "files": [
+        "docker-compose.yml",
+        ".gitignore",
+        "app/layout.tsx",
+        "lib/LanguageContext.tsx",
+        "DEPLOY.md"
+      ]
+    }
+  ],
+  "dependencyAudit": {
+    "next": "15.5.27",
+    "production": {
+      "critical": 0,
+      "high": 0,
+      "moderate": 0,
+      "low": 0,
+      "total": 0
+    },
+    "completeTree": {
+      "critical": 0,
+      "high": 7,
+      "moderate": 2,
+      "low": 0,
+      "total": 9
+    },
+    "remainingRootAdvisories": [
+      {
+        "package": "braces",
+        "installed": "3.0.3",
+        "advisory": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+        "note": "Нет совместимого исправления; затронуты цепочки Tailwind/ESLint/glob."
+      },
+      {
+        "package": "postcss-selector-parser",
+        "advisory": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+        "note": "Исправлено в 7.1.6; текущий Tailwind 3 использует ветку parser 6."
+      }
+    ],
+    "interpretation": "9 записей включают транзитивные цепочки двух основных advisory; это сборочные зависимости, а не 9 отдельных уязвимостей публичных HTTP-обработчиков. API не принимает CSS/glob от посетителей.",
+    "compatibleAuditFix": "npm audit fix не изменил зависимости и не устранил замечания.",
+    "nextAction": "Отдельно мигрировать и проверить Tailwind/ESLint toolchain. Не применять npm audit fix --force: он предлагает major-изменения и downgrade eslint-config-next."
+  },
+  "secretScan": {
+    "scanner": "Gitleaks",
+    "historyCommitsScanned": 93,
+    "historyFindings": [
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 17,
+        "commit": "911bf9ae6b09510a1ab236ca5451ec8c3e44b5df"
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 19,
+        "commit": "911bf9ae6b09510a1ab236ca5451ec8c3e44b5df"
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 17,
+        "commit": "05d278d5c92a58223a50dbd2ea40f69ec7359322"
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 19,
+        "commit": "05d278d5c92a58223a50dbd2ea40f69ec7359322"
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 16,
+        "commit": "408b075a89186bb58978fc6bcda6bdf2f2b60293"
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 18,
+        "commit": "408b075a89186bb58978fc6bcda6bdf2f2b60293"
+      }
+    ],
+    "currentSourceFindings": [
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 19,
+        "commit": null
+      },
+      {
+        "rule": "generic-api-key",
+        "file": "data/projects.json",
+        "line": 21,
+        "commit": null
+      }
+    ],
+    "publicFilesFindings": 0,
+    "classification": "6 исторических совпадений — две уникальные секретные ссылки itch.io, повторённые в трёх коммитах. Эти же две ссылки присутствуют в текущем data/projects.json. Других совпадений сканер не обнаружил.",
+    "affectedProjects": [
+      "aimshooter",
+      "magnet-master"
+    ],
+    "status": "intentional_public_access_confirmed_by_owner",
+    "ownerReply": "Да, оставить игры доступными",
+    "recommendation": "Ссылки сохранены по указанию владельца. Без secret-параметра обе страницы вернули 404. Если в будущем доступ должен стать приватным, убрать ссылки и отозвать/сменить их на itch.io: удаление из текущего JSON не удаляет историю Git.",
+    "limitation": "Это ссылки доступа к игровым страницам, не ключи API или входа в аккаунт. Их значения не включены в отчёт. Настройки аккаунта itch.io не менялись."
+  },
+  "containerImageAudit": {
+    "scanner": "Trivy 0.75.0",
+    "scannerImage": "ghcr.io/aquasecurity/trivy:0.75.0",
+    "scannerDigest": "sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa",
+    "status": "completed",
+    "image": "portfolio-audit:20261006",
+    "imageId": "sha256:a24c4fca17647fd626fe724c619b1caacc8f21fba7874b58e9e18f890f0dde79",
+    "os": {
+      "Family": "alpine",
+      "Name": "3.24.2"
+    },
+    "findings": [],
+    "countsBySeverity": {},
+    "beforeRemoval": {
+      "findingCount": 21,
+      "affectedPaths": "usr/local/lib/node_modules/npm/node_modules/*"
+    },
+    "limitations": [
+      "Проверен локально собранный образ, а не ОС и Docker daemon публичного VPS. Сканер не является доказательством отсутствия неизвестных уязвимостей."
+    ]
+  },
+  "verification": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "linuxProductionBuild": "passed",
+    "generatedStaticPages": 26,
+    "projectPages": 21,
+    "firstLoadJsBuildKb": {
+      "home": 164,
+      "project": 153,
+      "shared": 103
+    },
+    "http": {
+      "checkedAt": "2026-10-06T09:37:58.870Z",
+      "base": "http://127.0.0.1:3001",
+      "passed": true,
+      "projectPages": 21,
+      "mediaAssets": 28,
+      "contactPost": 403,
+      "heroVisibleBeforeJavaScript": true,
+      "homeInitialIframes": 0,
+      "homeGzipBytes": 10399,
+      "allScriptTagsGzipBytes": 209608,
+      "scriptMeasurementNote": "Includes legacy nomodule script; not a Lighthouse/field performance score.",
+      "games": [
+        {
+          "slug": "dzo-upgrade",
+          "bytes": 4873075,
+          "gzipBytes": 4370820
+        },
+        {
+          "slug": "gs-freeze",
+          "bytes": 4620793,
+          "gzipBytes": 4075655
+        },
+        {
+          "slug": "jelly-run-2048",
+          "bytes": 4936861,
+          "gzipBytes": 4419746
+        },
+        {
+          "slug": "kick-the-buddy",
+          "bytes": 3932480,
+          "gzipBytes": 3475798
+        },
+        {
+          "slug": "melon-sandbox",
+          "bytes": 3516101,
+          "gzipBytes": 3120372
+        },
+        {
+          "slug": "shadow-fight-3",
+          "bytes": 4892791,
+          "gzipBytes": 4402064
+        }
+      ],
+      "publicHttps": {
+        "status": 200,
+        "authorized": true,
+        "protocol": "TLSv1.3",
+        "validUntil": "Dec 19 13:41:06 2026 GMT",
+        "securityHeaders": {
+          "content-security-policy": null,
+          "strict-transport-security": null,
+          "x-content-type-options": null,
+          "x-frame-options": null,
+          "permissions-policy": null,
+          "referrer-policy": null
+        }
+      }
+    },
+    "browser": {
+      "checkedAt": "2026-10-06T09:32:50.362Z",
+      "base": "http://127.0.0.1:3001",
+      "games": [
+        {
+          "title": "DZO Upgrade",
+          "started": true,
+          "sandbox": "allow-scripts",
+          "src": "/playables/dzo-upgrade/index.html?v=20261006-isolated"
+        },
+        {
+          "title": "GS Freeze",
+          "started": true,
+          "sandbox": "allow-scripts",
+          "src": "/playables/gs-freeze/index.html?v=20261006-isolated"
+        },
+        {
+          "title": "Jelly Run 2048",
+          "started": true,
+          "sandbox": "allow-scripts",
+          "src": "/playables/jelly-run-2048/index.html?v=20261006-isolated"
+        },
+        {
+          "title": "Kick the Buddy",
+          "started": true,
+          "sandbox": "allow-scripts",
+          "src": "/playables/kick-the-buddy/index.html?v=20261006-isolated"
+        },
+        {
+          "title": "Melon Sandbox",
+          "started": true,
+          "sandbox": "allow-scripts",
+          "src": "/playables/melon-sandbox/index.html?v=20261006-isolated"
+        },
+        {
+          "title": "Shadow Fight 3",
+          "started": true,
+          "sandbox": "allow-scripts",
+          "src": "/playables/shadow-fight-3/index.html?v=20261006-isolated"
+        }
+      ],
+      "sandbox": {
+        "type": "audit:result",
+        "parentDocumentBlocked": true,
+        "storageBlocked": true,
+        "connectCspViolation": true,
+        "origin": "null"
+      },
+      "manualChecks": {
+        "restart": true,
+        "fullscreenCycle": true,
+        "escapeFromGame": true,
+        "iframeRemovedAfterClose": true,
+        "showreelPlayback": true,
+        "mobileMenu": true,
+        "mobileWidth": 390,
+        "mobileScrollWidth": 380,
+        "mobileClientWidth": 380,
+        "languageSwitch": true,
+        "crtSwitch": true,
+        "holoPausedOutsideViewport": true
+      }
+    },
+    "runtime": {
+      "next": "15.5.27",
+      "node": "22.23.3",
+      "uid": 1001,
+      "containerHealthy": true,
+      "bind": "127.0.0.1:3001"
+    }
+  },
+  "remainingPerformanceWork": [
+    "Игровые HTML передаются примерно по 3.1–4.4 MB gzip только после клика. Дальнейшее уменьшение требует повторного экспорта/оптимизации Unity/Luna assets.",
+    "Проверить реальные LCP/INP/CLS и FPS/GPU на мобильных устройствах. Lighthouse/Web Vitals в этом аудите не измерялись.",
+    "В исходных игровых экспортах остаются нефатальные предупреждения материалов/шейдеров. Все шесть игр запустились; для устранения предупреждений нужен исходный Unity-проект."
+  ],
+  "deploymentChecklist": [
+    "Обновить ветку new-site на VPS, пересобрать Docker Compose и убедиться, что healthcheck проходит.",
+    "Проверить CSP/HSTS/nosniff/X-Frame-Options/Referrer-Policy/Permissions-Policy на публичном домене и отдельную sandbox CSP игровых HTML.",
+    "Убедиться, что Nginx использует production standalone/next start; не публиковать next dev.",
+    "Повторить запуск всех шести игр, fullscreen/restart/Escape и воспроизведение YouTube на публичном HTTPS.",
+    "Ссылки доступа itch.io оставлены публичными по подтверждённому указанию владельца."
+  ],
+  "notAudited": [
+    "SSH/firewall/пользователи/патчи ОС реального VPS",
+    "Авторизация и настройки аккаунтов itch.io/YouTube/GitHub",
+    "Полное прохождение каждой игры",
+    "Нагрузочный DDoS-тест",
+    "Lighthouse и полевые Web Vitals"
+  ],
+  "sources": [
+    "https://nextjs.org/blog/september-2026-security-release",
+    "https://nextjs.org/docs/app/guides/content-security-policy",
+    "https://nextjs.org/docs/app/api-reference/config/next-config-js/headers",
+    "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/iframe",
+    "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+    "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+    "https://itch.io/docs/creators/access-control",
+    "https://github.com/gitleaks/gitleaks",
+    "https://github.com/aquasecurity/trivy/releases/tag/v0.75.0"
+  ]
+}

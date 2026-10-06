@@ -175,6 +175,7 @@ export default function HoloCard({ src, alt, name, title }: { src: string; alt: 
     <div
       ref={zoneRef}
       className="holo-card__zone"
+      data-animated={visible && pageVisible && !reducedMotion}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={handleMouseLeave}

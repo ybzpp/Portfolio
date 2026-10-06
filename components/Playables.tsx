@@ -27,7 +27,7 @@ export default function Playables() {
                 <span className="absolute z-10 top-4 right-4 flex items-center gap-2 font-display text-[8px] text-white/90 bg-dark-bg/80 px-2 py-1"><span className="w-1.5 h-1.5 bg-neon-green" /> PLAYABLE</span>
                 {playable.cover ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={playable.cover} alt="" loading="lazy" className="playable-card__image" />
+                  <img src={playable.cover} alt="" loading="lazy" decoding="async" width="960" height="540" className="playable-card__image" />
                 ) : <span className="font-display text-5xl text-neon-cyan/70">GS</span>}
                 <span className="playable-card__play" aria-hidden="true">▶</span>
               </div>
