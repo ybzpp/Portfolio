@@ -17,7 +17,10 @@ export default function Playables() {
         <motion.div className="text-center max-w-3xl mx-auto mb-14" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <p className="font-display text-[9px] sm:text-[10px] text-neon-green leading-relaxed mb-5">&gt; {t.playables.eyebrow}</p>
           <h2 className="font-display text-xl md:text-3xl text-zinc-100 mb-5">[{t.playables.title}]</h2>
-          <p className="font-body text-zinc-400 text-lg leading-relaxed">{t.playables.desc}</p>
+          <p className="font-body text-zinc-400 text-lg leading-relaxed">
+            <strong className="block font-display text-2xl sm:text-3xl text-neon-cyan mb-3">{t.playables.metric}</strong>
+            {t.playables.desc}
+          </p>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {playables.map((playable, index) => (
