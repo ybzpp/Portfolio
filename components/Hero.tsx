@@ -4,8 +4,6 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { useLanguage } from '@/lib/LanguageContext';
-import projects from '@/data/projects.json';
-import playables from '@/data/playables.json';
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -81,16 +79,6 @@ export default function Hero() {
           >
             {t.hero.ctaContact}
           </Link>
-        </motion.div>
-        <motion.div
-          className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-10 font-body text-sm text-zinc-500"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          <a href="#playables" className="hover:text-neon-cyan"><span className="text-zinc-200 font-semibold">{playables.length}</span> {t.hero.playables}</a>
-          <a href="#portfolio" className="hover:text-neon-cyan"><span className="text-zinc-200 font-semibold">{projects.filter((project) => project.category === 'gamedev').length}</span> {t.hero.games}</a>
-          <a href="#showreel" className="hover:text-neon-pink"><span className="text-zinc-200 font-semibold">1</span> {t.hero.showreel}</a>
         </motion.div>
       </div>
 

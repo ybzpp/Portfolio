@@ -26,7 +26,7 @@ export const translations = {
     playables: {
       title: 'Playable Ads',
       eyebrow: 'Не только посмотреть — поиграть',
-      desc: 'Шесть интерактивных рекламных креативов. Выберите игру — она откроется прямо здесь, почти на весь экран.',
+      desc: 'Подборка моих интерактивных рекламных креативов. Выберите игру — она откроется прямо здесь, почти на весь экран.',
       play: 'Играть',
       open: 'Запустить',
       hint: 'Мышь или касание',
@@ -119,7 +119,7 @@ export const translations = {
     playables: {
       title: 'Playable Ads',
       eyebrow: 'More than a preview — play it',
-      desc: 'Six interactive ad creatives. Pick a game and play it right here, in an almost full-screen player.',
+      desc: 'A selection of my interactive ad creatives. Pick a game and play it right here, in an almost full-screen player.',
       play: 'Play',
       open: 'Launch',
       hint: 'Mouse or touch',
